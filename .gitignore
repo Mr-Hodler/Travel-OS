@@ -1,0 +1,21 @@
+# Personal / trip-specific — never commit
+*-PII.*
+*-confidential.*
+config/*.md
+!config/*.example.md
+
+# OS / tooling noise
+.DS_Store
+Thumbs.db
+~$*
+*.tmp
+.ipynb_checkpoints/
+__pycache__/
+node_modules/
+*.bak
+*.bak[0-9]
+*.pyc
+.obsidian/
+
+# local-only reference material
+_reference/
