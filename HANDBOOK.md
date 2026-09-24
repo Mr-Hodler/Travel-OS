@@ -123,10 +123,14 @@ All three live in `knowledge/` and are bundled into every package at that same p
 | File | What it settles | Read it when |
 | --- | --- | --- |
 | `notion-travel-db.md` | the parent page, the three data source and template ids, the property schemas including the `Attachements` misspelling that stays, the direction relations resolve, the naming conventions, the reference pages worth reading for density, the one trip one page rule | before touching Notion, in any skill, and before creating anything with a relation |
-| `page-standard.md` | that the template is the specification, what is always required on top of it, the style rules, and the verification pass that decides whether a page is finished | before writing a page, and again on the re-fetch at the end; `travel-db-audit` reads it as the definition of incomplete |
+| `page-standard.md` | that the template is the specification and that the canonical form of it is the matching `*-spec.md` in this repo, what is always required on top of it, the style rules, and the verification pass that decides whether a page is finished | before writing a page, and again on the re-fetch at the end; `travel-db-audit` reads it as the definition of incomplete |
 | `research-standard.md` | what must be checked live every time, what may be written from knowledge, sourcing preference, and the rule that trip data comes from the inbox and never from the web | before research, in any skill; it is also what tells `travel-db-audit` which facts rot |
 
 The ids in `notion-travel-db.md` save a search. They do not replace fetching and reading the template.
+
+Beside the three standards, `knowledge/templates/` holds the canonical specification of each data source: `nations-spec.md`, `city-spec.md` and `travel-spec.md`. Since 1.2 the repo is the source of truth for the templates and the Notion default templates are the mirror, aligned to the specs. A skill reads the spec to know the required shape of a page without a Notion round trip, and where a spec and the live Notion template disagree the spec wins and the Notion template is what needs bringing into line. Fetching the live template is still worth doing on a run that writes a page, as a check that the two have not drifted, and `knowledge/template-sync.md` says how to re-check and how to push a change through. The three `*-template.md` files beside the specs are historical snapshots of 2026-09-24, before the 1.2 additions, and are not the specification.
+
+One limit survives the reversal and is worth knowing: the template Notion holds is the one applied when someone clicks New page inside the database by hand. A skill writing through the API follows the spec and is unaffected; a page created by hand starts from whatever Notion holds, which is why the two are kept aligned rather than allowed to drift.
 
 ## Connectors required
 

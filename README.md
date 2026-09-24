@@ -1,6 +1,6 @@
 # Travel OS
 
-![version](https://img.shields.io/badge/version-1.1-blue)
+![version](https://img.shields.io/badge/version-1.2-blue)
 
 Five skills that manage the Notion **Travels & City** database. The database already exists and is correct. Travel OS does not redesign it, it keeps it filled, current and usable.
 
@@ -30,7 +30,7 @@ Three files in `knowledge/`, bundled into every package so a skill installed on 
 - **`page-standard.md`** the fill contract: reproduce the template to the letter, fill every point, and the verification pass that decides whether a page is finished
 - **`research-standard.md`** what must be checked live every time, what can be written from knowledge, and where trip data actually comes from
 
-Beside them, `knowledge/templates/` mirrors the default page template of each of the three data sources, Nations, City and Travel, verbatim as the Notion API returns it, and `knowledge/template-sync.md` records when the snapshot was taken and how to re-take it. The mirrors let a skill know the required shape of a page with no Notion round trip, and keep that shape reviewable in git. They are snapshots and not the master: **Notion remains the source of truth**, so where a mirror and the live template disagree the live template wins and the mirror is stale, and a mirror is never edited to change a template.
+Beside them, `knowledge/templates/` holds the canonical specification of each of the three data sources: `nations-spec.md`, `city-spec.md` and `travel-spec.md`. Each one carries the whole structure of its template, section by section, table by table, toggle by toggle, plus the additions made in 1.2. **The specs are canonical and the default templates in Notion are aligned to them**, so where the two diverge the spec wins and the Notion template is what needs updating. `knowledge/template-sync.md` holds the direction of truth, how the Notion templates are brought into line, how to re-check that they still are, and the one limit that matters: a page created by clicking New page inside the database by hand starts from the Notion template, not from the spec, so the two have to be kept aligned anyway. The three `*-template.md` files beside the specs are historical snapshots of the templates as they stood on 2026-09-24, before the additions, kept for reference and not maintained.
 
 ## Install
 
@@ -40,6 +40,14 @@ Beside them, `knowledge/templates/` mirrors the default page template of each of
 ```
 
 Needs the Notion connector. `trip-itinerary` and `pre-departure-check` also need Spark or Gmail, and Google Calendar. `travel-scheduler` needs the trigger tools of the `claude-code-remote` MCP server, and nothing else.
+
+## What's new in 1.2
+
+**The repo is now the source of truth for the three templates.** It was the other way round in 1.1: Notion held the master and the repo held a snapshot, which meant the repo could describe the templates but never improve them. The three `*-spec.md` files are now canonical, the three Notion default templates were brought up to them by addition, and `knowledge/template-sync.md` states the direction, the procedure and the limit.
+
+Each spec also carries what the template was missing. Nations gained a `Storia del paese` toggle, the CH and IT consular emergency numbers as rows distinct from the embassy switchboard, a `Costi tipici nel paese` table in local currency and CHF, a `Fare business nel paese` block, explicit `Do` and `Don't` with a `Cosa non dire` line, `Chi governa oggi` with a verification date, and `Ultimo aggiornamento` with `Da riverificare prima di partire`. City gained a `Farmacia 24h` row, `Rischi stagionali` tied to the real travel window, explicit `Do` and `Don't` with `Cosa non dire`, an `Allenamento e wellness` table because the reader trains every day and needs a day pass near where he sleeps, the two dish tables `Da provare, buoni` and `Da provare, strani o divisivi`, `Chi accetta Bitcoin`, `Consolati e camere di commercio`, `Eventi tech ricorrenti`, and the same two closing blocks. Travel gained the red `DA RISOLVERE` callout at the top, `Transfer da e verso casa` because the home to airport leg is the one that is always missing, an `Impegni remoti e call` table separate from the tours, a `Conflitti di agenda` section, a cost summary split into `a carico azienda` and `a carico mio` with two totals, a `Modo semplificato` block so a short trip does not get a template built for a long one, a `Checklist finale` grouped by `Prima di partire` and then by city, and the `un viaggio una pagina` rule written on the page.
+
+Nothing was removed anywhere. On Notion the Jarvis instruction callouts stay, because Notion is where they are read; the specs leave them out, because a specification does not need instructions on how to fill itself.
 
 ## What's new in 1.1
 
