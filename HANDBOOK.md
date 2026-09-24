@@ -1,10 +1,10 @@
 # Travel OS handbook
 
-The README presents Travel OS. This document is the manual you open with a skill about to run. For each of the five skills: the question it answers, the cases where it is the wrong tool, what it needs from you and from the skill upstream of it, exactly what lands in Notion when it finishes, how it works and the one or two rules that make its output different from a generic version of the same document, and what reads that output afterwards.
+The README presents Travel OS. This document is the manual you open with a skill about to run. For each of the six skills: the question it answers, the cases where it is the wrong tool, what it needs from you and from the skill upstream of it, exactly what lands in Notion when it finishes, how it works and the one or two rules that make its output different from a generic version of the same document, and what reads that output afterwards.
 
-The order below is the order the skills actually run. `nation-city-pages` builds the reference layer, `trip-itinerary` builds the trip on top of it, `travel-scheduler` puts that trip's reminders in place, `pre-departure-check` verifies the trip 48 hours out when the first of those reminders fires, `travel-db-audit` keeps all of it honest between trips.
+The order below is the order the skills actually run. `nation-city-pages` builds the reference layer, `trip-itinerary` builds the trip on top of it, `travel-scheduler` puts that trip's reminders in place, `pre-departure-check` verifies the trip 48 hours out when the first of those reminders fires, `travel-db-audit` keeps all of it honest between trips, and `travel-db-repair` closes what the audit finds. The last two are a pair and they run in that order: the audit is read only by design and the repair skill is the only one allowed to write against its findings.
 
-One rule sits above all five. The Notion environment already exists and is correct. No skill adds a property, renames a data source, or creates a parallel database. They fill and repair what is there.
+One rule sits above all six. The Notion environment already exists and is correct. No skill adds a property, renames a data source, or creates a parallel database. They fill and repair what is there.
 
 ---
 
@@ -116,9 +116,72 @@ Two rules separate this from a generic database report. The first is **list, do 
 
 ---
 
+## 6. travel-db-repair
+
+**The question it answers.** The audit said what is wrong. Who makes it right, without deleting anything, without
+two agents overwriting each other, and without a rewrite turning a page that was merely defective into a page
+that has lost content.
+
+**When not to use it.** Not to find the defects, which is `travel-db-audit`: repair without a defect list is a
+rewrite, and rewriting a page that was already correct is the one way this skill makes the database worse. Not to
+fill a page that is simply thin, which is `nation-city-pages` in enrichment mode: a thin page goes there, a page
+that is wrong, duplicated, unlinked or written against an old spec comes here. Not to delete anything, ever, and
+not to touch the three `*-template.md` historical snapshots. Not on the same pages another agent is working, which
+is the whole of the parallelisation rule below.
+
+**What it needs from you.** A defect list, normally the report from `travel-db-audit`, otherwise a scope: one data
+source, one cluster of pages, one page. Nothing else, because what a page should say is in the specs and what is
+wrong with it is in the report.
+
+**What it needs from upstream.** `travel-db-audit`, for the list. It also needs the three canonical specs in
+`knowledge/templates/`, which are the target of a generation migration, and `knowledge/template-sync.md`, which
+says the spec wins over the Notion template.
+
+**What you get back.** The repaired pages, and one repair log in Italian per run, shaped by
+`references/repair-log.md`: one row per page with the classes repaired, what changed named as a field, a block or
+a token, and the section count before and after, which is the column that catches a repair that ate content. Plus
+a parking register naming every duplicate that was moved out, where it went, which page survived and what was
+moved into it before the move, and the sentence saying the parking page can be deleted with one click. Plus
+`Da verificare` and `Non riparato`, which are the input of the next run and are never left out to make the log
+look shorter.
+
+**How it works.** Six repair classes in a fixed order, and the order is yield rather than preference. **1.
+Duplicates and obsolete pages**, the highest return in the skill and almost no writing: choose the survivor by
+which page holds more real content, move into it what only the loser has, repoint the relations, then move the
+loser out with `notion-move-pages` under a parking page outside the databases and write on it why it is parked and
+what replaced it. The move is last, because once the page leaves the data source its properties and relations are
+no longer there to read. **2. Relations**, the defect that makes the database unnavigable and the cheapest to
+close, read off the page content and never guessed, with an eye on the relation field that points at the wrong
+data source and therefore looks populated while matching nothing. **3. Data that is objectively false**, a callout
+carrying another country's figures, an abolished tax given as due, a boarding time before the departure time:
+verified on the web and corrected with the source and the date. **4. Fake sources.** **5. Generation migration**,
+mapped block by block against the current spec before anything is written. **6. Cosmetics**, mechanical and done
+in bulk across the cluster.
+
+Two rules make this different from a cleanup pass. The first is that **nothing is deleted and everything that is
+removed goes somewhere**: a duplicate is parked with a note rather than deleted, a Top 10 cut to Top 5 sends the
+other five into a line of text underneath, a block with no home in the new structure goes under the nearest
+section rather than out of the page. Deleting is one click for the user and irreversible for us, which is the
+whole reason the parking page exists. The second is that **parallelisation is by group of pages and never by class
+of defect**: two agents working the same pages with `update_content` overwrite each other silently, because the
+second write lands against a block index the first one moved and neither call reports anything. Each agent gets a
+whole data source or a disjoint cluster and does all six classes inside it.
+
+Three more rules carry most of the remaining cost. `replace_content` is forbidden on a page that has content, with
+one exception, the generation migration, and only after the mapping worksheet in `references/generation-map.md` is
+complete. `notion-fetch` can return a stale snapshot, so a structural intervention forces a refresh with a micro
+edit and fetches again, or the edit is computed against a page that no longer exists. And a placeholder is worse
+than a declared hole: where the data does not exist the page says it was never recorded, because `[Amount]` left
+in a page reads as a field somebody will fill and nobody will.
+
+**What consumes it.** The next run of `travel-db-audit`, which should find the same pages clean. If it does not,
+the repair log says what was done and the difference is a finding about this skill rather than about the page.
+
+---
+
 ## The three shared standards
 
-All three live in `knowledge/` and are bundled into every package at that same path, so a skill installed on its own still resolves them. Every skill that writes a page reads all three before writing anything, on every run, not once at install time. `travel-scheduler` writes no page: it reads `notion-travel-db.md` alone, to resolve the ids and dates its task prompts have to name.
+All three live in `knowledge/` and are bundled into every package at that same path, so a skill installed on its own still resolves them. Every skill that writes a page reads all three before writing anything, on every run, not once at install time. `travel-scheduler` writes no page: it reads `notion-travel-db.md` alone, to resolve the ids and dates its task prompts have to name. `travel-db-repair` reads all three plus the three canonical specs and `template-sync.md`, because a generation migration is a write against the spec and not against the page it finds.
 
 | File | What it settles | Read it when |
 | --- | --- | --- |
@@ -141,8 +204,9 @@ One limit survives the reversal and is worth knowing: the template Notion holds 
 | `pre-departure-check` | required, read and write | required, to re-check bookings and codes | required, to catch meetings added after the page was written | required, for every item in `references/live-checks.md` |
 | `travel-scheduler` | required, read only, for the `Dates` and the relations of the trip a task is built around | no | no | no |
 | `travel-db-audit` | required, read and limited write | no | no | targeted checks only, where cheap and high value |
+| `travel-db-repair` | required, read and write | no | no | required, to verify a false figure before correcting it and to find the real official link behind a fake one |
 
-The plugin as a whole therefore needs the Notion connector, plus Spark or Gmail and Google Calendar for the two trip skills. `travel-scheduler` needs one thing no other skill uses, the trigger tools of the `claude-code-remote` MCP server: `create_trigger`, `list_triggers`, `update_trigger`, `delete_trigger`. Without them it cannot create a task that survives the session, and there is no fallback worth using.
+The plugin as a whole therefore needs the Notion connector, plus Spark or Gmail and Google Calendar for the two trip skills, and Google Drive for the trip folders that `trip-itinerary` links and the two maintenance skills read. `SETUP.md` carries the full matrix, the first use sequence and the five checks that tell you whether each connector actually responds. `travel-scheduler` needs one thing no other skill uses, the trigger tools of the `claude-code-remote` MCP server: `create_trigger`, `list_triggers`, `update_trigger`, `delete_trigger`. Without them it cannot create a task that survives the session, and there is no fallback worth using.
 
 ## Build and verify
 

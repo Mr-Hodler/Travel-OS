@@ -25,7 +25,7 @@ All three, before writing anything. They are bundled into this package at these 
 
 | File | What it settles |
 | --- | --- |
-| `knowledge/page-standard.md` | the fill contract, what is always required on top of the template, the style rules, the verification pass |
+| `knowledge/page-standard.md` | the fill contract, what is always required on top of the template, the link contract, the generation marker, the style rules, the verification pass |
 | `knowledge/notion-travel-db.md` | data source ids, property schemas, relation direction, naming conventions, the reference pages worth copying for density |
 | `knowledge/research-standard.md` | what has to be checked live and what can be written from knowledge |
 
@@ -77,6 +77,26 @@ generic or stale. A page that loses a good address because it was easier to star
 | Work | both | the reader does Bitcoin business development. Local crypto regulation and its current real state, exchanges, community, VC, and how business is actually conducted on the ground |
 | Gym and routine | city | day pass gyms with prices near where the reader is staying. He trains every day |
 
+## Three rules that do not come from the template
+
+The template says what sections a page has. These three say whether the page can be trusted, and all three
+were added after a maintenance pass found pages that passed the template check and failed the reader.
+
+**The link contract.** Every link is the official site of the thing it names, or there is no link. If the
+official URL cannot be found, write the name without a link: a name is honest and searchable, a plausible
+link to the wrong place is not. Never leave generation residue in a URL, `utm_source=` tails or
+`([turn0searchNN])` markers, and never let a table fill up with rows all pointing at the same generic portal.
+Full rule in `knowledge/page-standard.md`.
+
+**The generation marker.** The `Ultimo aggiornamento` block at the end of the page carries the date **and the
+version of the spec the page was written against**, for example `Spec seguita: city-spec.md, Travel OS 1.3`.
+A date alone does not say whether the page is behind the current structure, and without the marker the only
+way to find out is to open every page and compare it section by section.
+
+**`notion-fetch` can return a stale snapshot.** Before a structural intervention on an existing page, in
+enrichment mode above all, force a refresh with a micro edit and fetch again. Editing against a snapshot that
+no longer matches the page puts the change in the wrong place, and neither the call nor the page reports it.
+
 ## Parallelising several pages
 
 When more than one page is wanted in a run, fan out, but keep the write order intact.
@@ -112,6 +132,10 @@ Re-fetch the written page, then work down this list. A page that fails any line 
 - [ ] naming and icon per convention: nation is English name plus flag emoji, city is the English name,
       icon is the flag
 - [ ] footer carries the date the page was brought current
+- [ ] every link is the official site of the thing it names, or the name carries no link at all
+- [ ] no `utm_source=`, no `([turn0searchNN])`, no search result URL standing in for a site
+- [ ] the generation marker names the spec version the page follows, not only the date
+- [ ] on a City page, `Maps` is populated as a property, not written as a row inside the page body
 
 ## Output style
 

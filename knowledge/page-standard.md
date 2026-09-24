@@ -64,6 +64,54 @@ For every entry: what it is, what to expect, and where to actually get it with a
 - Where a figure cannot be verified, write `da verificare` rather than guessing.
 - A date in the footer: when the page was last brought current.
 
+## Link contract
+
+Every link on a page is either the official site of the thing it names, or there is no link. There is no
+third option, and "a link that is roughly about the right subject" is the defect this section exists to stop.
+
+**Fake sources are the most dangerous defect a page can carry**, because they are invisible: the page looks
+filled, reads as researched, and cannot be checked. Nothing about it is wrong on the surface.
+
+The signals, both seen in real pages:
+
+- **Many `Link` cells pointing at the same generic portal.** One row linking a national tourist board is
+  normal. Fifteen rows all linking the same one means nobody looked anything up, and the table is decoration.
+- **Generation residue.** `utm_source=chatgpt.com` and other tracking tails, `([turn0searchNN])` markers left
+  in the text, a search result URL standing in for a site, a link whose visible text and whose target do not
+  name the same thing.
+
+The rule, without exception: **look for the real official site, and if it is not found remove the link and
+leave the name.** A name with no link is honest, and the reader finds it in five seconds. A plausible link to
+the wrong place costs him the trip.
+
+**Never replace a fake link with another generic one.** Swapping one aggregator for another closes the
+finding on paper and leaves the page exactly as unverifiable as it was.
+
+Where one cell in a table is a fake source, the whole table is checked cell by cell. Fake links arrive in
+batches, because whatever produced one produced the row beside it.
+
+## Generation marker
+
+Every page carries at the end an `Ultimo aggiornamento` block, and that block names **the date and the
+version of the spec the page was written against**.
+
+```
+## 🗓️ Ultimo aggiornamento
+- **Data:** 2026-09-24
+- **Chi:** nation-city-pages
+- **Cosa è cambiato:** one line, so the next reader knows what was touched
+- **Spec seguita:** city-spec.md, Travel OS 1.3
+```
+
+The date alone is not enough. Templates evolve, and a page can be complete against the spec of a year ago
+and incomplete against the current one with nothing on it that looks wrong. Without the marker, the only way
+to find out which pages are behind is to open all of them and compare section by section, which is how a
+migration ends up costing more than the writing it is meant to fix.
+
+With the marker, a future migration reads the footer, compares the spec version against the current one, and
+knows what is old without opening anything. `travel-db-audit` reads it the same way, and a page whose marker
+names no spec version is itself a finding.
+
 ## The verification pass is not optional
 
 After writing, re-fetch the page and check:
@@ -74,5 +122,8 @@ After writing, re-fetch the page and check:
 - no template instruction callout left in the page
 - every section the template has is present and numbered correctly
 - no em dashes in prose, no missing accents
+- every link is the official site of the thing it names, or there is no link, per the link contract above
+- no generation residue anywhere: no `utm_source=`, no `([turn0searchNN])`, no search result URL in place of a site
+- the generation marker is present: `Ultimo aggiornamento` carries the date and the spec version followed
 
 A page that fails any of these is not finished.

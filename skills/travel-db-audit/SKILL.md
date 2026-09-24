@@ -26,6 +26,7 @@ is visible from the database view. This skill finds it on a schedule, so a trip 
 | `knowledge/page-standard.md` | defines what complete means, therefore what incomplete means, and lists the placeholder tokens to hunt |
 | `knowledge/notion-travel-db.md` | the three data source ids, the property schemas, relation direction, the one trip one page rule |
 | `knowledge/research-standard.md` | which facts rot, therefore which pages are stale by age alone |
+| `knowledge/drive-convention.md` | the Drive folder per trip, the canonical names, and the current list of folders and pages that do not correspond |
 
 ## What it looks for
 
@@ -37,6 +38,11 @@ is visible from the database view. This skill finds it on a schedule, so a trip 
 | **Split trip** | two or more Travel pages with overlapping or adjacent `Dates` that are one journey. One trip is one page, with multiple relations and one day by day table | the row listing alone |
 | **Duplicate** | the same country or city twice, usually a naming variant: with and without the flag emoji, English against local name, singular spelling drift | normalised name match on the listing |
 | **Archivable** | a Travel whose `Dates` ended more than 90 days ago and is still sitting in the active view | the row listing alone |
+| **Empty `Drive link`** | a Travel page whose `Drive link` is blank. A defect even when no folder exists yet, because the page then names no home for the documents it was built from | the row listing alone |
+| **Drive and Notion do not correspond** | a trip folder under `05_Viaggi` with no Travel page, a Travel page with no folder, or a `Drive link` pointing at a folder that is not the one named for those dates. Matching is on destination and on `Dates` against the `YYYY.MM_Destinazione` folder name, never on the title, which drifts | the row listing plus one read of `05_Viaggi` |
+| **Fake sources** | many `Link` cells pointing at the same generic portal, a search result URL standing in for a site, generation residue such as `utm_source=chatgpt.com` or `([turn0searchNN])`, a link whose text and target do not name the same thing. The page looks filled and is not verifiable, which is what makes this the most dangerous class | page content, fetch required |
+| **Generation drift** | a page written against an older spec: sections missing against the current `*-spec.md`, or an `Ultimo aggiornamento` block that names an older spec version or names none at all. Nothing on the page looks wrong, it is simply a generation behind | the footer marker, then the section count against the spec |
+| **Empty `Maps` on a City** | a City page whose `Maps` url property is blank, or whose Google Maps link was written as a row inside the page body instead of into the property, which leaves the property empty and the link invisible to every query. `Maps` exists on the City data source, see the schema in `knowledge/notion-travel-db.md` | the row listing alone |
 
 Staleness thresholds: a page is stale at **12 months** since its footer date, and at **6 months** if a
 Travel page relates to it with dates inside the next 90 days. An imminent trip raises the bar on its own
@@ -48,7 +54,9 @@ reference pages.
    names, relations, dates and last edited time for the whole database. That is enough to produce four of
    the six classes above without opening a single page.
 2. **Triage from the listing.** Missing relations, past-dated trips, overlapping date ranges, names that
-   normalise to the same string: these are findings already, with no fetch cost.
+   normalise to the same string: these are findings already, with no fetch cost. List `05_Viaggi` once in the
+   same pass, one level deep, and diff the trip folders against the Travel rows: a folder with no page
+   and a page with no folder are both findings from the two listings alone, with nothing opened.
 3. **Fetch only the suspects.** Pages that triage flagged, plus pages attached to a trip in the next 90
    days, plus the oldest handful by footer date. Never the whole database. State in the report how many
    pages were opened and how many were listed only, so the reader can see the coverage of the run.
@@ -74,7 +82,9 @@ or a broken relation that hides a page from the trip that needs it. **Media** is
 nothing imminent depending on it. **Bassa** is cosmetic, naming, and archiving.
 
 Findings route out: incomplete or stale Nation and City pages go to `nation-city-pages` in enrichment mode,
-split trips and thin itineraries to `trip-itinerary`.
+split trips and thin itineraries to `trip-itinerary`. Everything this skill finds and is not allowed to fix
+goes to `travel-db-repair`: duplicates, broken or misdirected relations, false data, fake sources, generation
+drift and cosmetics. The audit finds and routes, the repair skill writes.
 
 ## What it may change without asking
 
@@ -111,6 +121,7 @@ Fit for a schedule: monthly, plus seven days before the start date of any Travel
 - Never delete a page. A duplicate is reported with which copy should survive and why, and the merge is the
   user's call.
 - Never invent the corrected value. `da verificare` is a legitimate finding.
+- `05_Viaggi` is read only in an audit. Never create, rename, move or delete anything in Drive, and never copy a passport, a visa or an ID scan into a Notion page or into a report. A missing folder is reported, not created.
 - Never report a page as incomplete without naming the field or the token that made it fail. A finding that
   cannot be acted on in one step is not a finding.
 - Report in Italian. No em dashes and no en dashes.

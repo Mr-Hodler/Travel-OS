@@ -29,6 +29,30 @@ Prefer official sources: government portals, embassies, municipal transport oper
 
 When two sources disagree, say so in the page rather than picking silently.
 
+## When the web search budget runs out
+
+The web search budget is **shared and finite**: shared across a run, and shared across every subagent that
+run fanned out. It does not reset per page. A run that spends it all on page three leaves the rest of the
+cluster unverifiable, and the pages after it are where the temptation to fill from memory arrives.
+
+When it is exhausted, do not stop and do not write from memory. Fall back in this order:
+
+1. **Direct fetch on official URLs already known.** The ministry, the municipal transport operator, the
+   central bank, the venue's own domain. A fetch of a known URL is not a search and is usually still
+   available when search is not.
+2. **The value already on the page, kept with the date it was last checked**, and only when that date is
+   recent enough for the kind of fact it is.
+3. **`da verificare`**, with the date of the last known check beside it.
+
+A figure that was not confirmed in this run is written `da verificare`. It is **never** reported as current.
+One unchecked figure presented as verified makes every other figure on the page unusable, because the reader
+has no way to tell which ones were checked. Marking it costs a line and keeps the rest of the page worth
+reading.
+
+The same applies to a run that is going to exhaust the budget: plan for it. Decide up front which facts are
+worth a search on this run, spend the budget on those, and mark the rest rather than discovering at page ten
+that there is nothing left and improvising.
+
 ## Trip data comes from the inbox, not from the web
 
 Flights, hotels, confirmations, events and meetings are in email and calendar. Search them. Never reconstruct a booking from memory of the conversation, and never round a price or a confirmation code.

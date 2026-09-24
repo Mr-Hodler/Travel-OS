@@ -1,14 +1,14 @@
 # Travel OS
 
-![version](https://img.shields.io/badge/version-1.2-blue)
+![version](https://img.shields.io/badge/version-1.3-blue)
 
-Five skills that manage the Notion **Travels & City** database. The database already exists and is correct. Travel OS does not redesign it, it keeps it filled, current and usable.
+Six skills that manage the Notion **Travels & City** database. The database already exists and is correct. Travel OS does not redesign it, it keeps it filled, current and usable.
 
 ## Why this exists
 
 The Notion environment was built once, carefully: a Nations database for country-level rules, a City database for local detail, a Travel database for the operational itinerary, each with a complete default template. The templates were the good part. The failure mode was never the structure, it was filling it: sections left generic, tables half empty, placeholders shipped as if they were content, a single trip split across two pages because it crossed a border.
 
-Travel OS closes that gap. Every skill that writes a page reads the same three shared standards, and every page goes through a verification pass before it is called finished. The fifth skill writes no page: it owns the scheduled tasks that make the other four run when they are supposed to.
+Travel OS closes that gap. Every skill that writes a page reads the same three shared standards, and every page goes through a verification pass before it is called finished. One skill writes no page: it owns the scheduled tasks that make the others run when they are supposed to. And since 1.3 the maintenance half is a pair rather than a single skill, because an audit that can only report is an audit whose findings accumulate: `travel-db-audit` finds the defects, `travel-db-repair` closes them.
 
 ## The catalog
 
@@ -19,8 +19,9 @@ Travel OS closes that gap. Every skill that writes a page reads the same three s
 | **travel-scheduler** | Owns the scheduled tasks behind the others: the two one-shot pre-departure runs per trip, the page refresh ten days out, the monthly audit. Creates them with the trigger tools that survive the end of a session, converts Lugano local time to UTC, names them so they can be found again, and removes them when the trip is over. |
 | **pre-departure-check** | Forty-eight hours out, re-reads the itinerary, verifies live what may have changed since it was written, and hands back a short ordered list of what is still open. |
 | **travel-db-audit** | Sweeps the whole database for incomplete pages, stale figures, broken relations and trips wrongly split across pages. Runs unattended and stays silent when there is nothing to report. |
+| **travel-db-repair** | Closes what the audit found. Parks duplicates instead of deleting them, rewires relations read off the page rather than guessed, corrects data that is objectively false, strips fake sources and leaves the name where no official link exists, migrates pages written against an older spec after mapping them block by block. |
 
-Run order: **nation-city-pages** builds the reference layer, **trip-itinerary** builds on it, **travel-scheduler** sets the reminders that trip needs, **pre-departure-check** closes the loop before departure, **travel-db-audit** keeps the whole thing honest over time.
+Run order: **nation-city-pages** builds the reference layer, **trip-itinerary** builds on it, **travel-scheduler** sets the reminders that trip needs, **pre-departure-check** closes the loop before departure, **travel-db-audit** keeps the whole thing honest over time, and **travel-db-repair** is what the audit hands its findings to.
 
 ## Shared standards
 
@@ -39,7 +40,55 @@ Beside them, `knowledge/templates/` holds the canonical specification of each of
 /plugin install travel-os
 ```
 
-Needs the Notion connector. `trip-itinerary` and `pre-departure-check` also need Spark or Gmail, and Google Calendar. `travel-scheduler` needs the trigger tools of the `claude-code-remote` MCP server, and nothing else.
+Needs the Notion connector. `trip-itinerary` and `pre-departure-check` also need Spark or Gmail, and Google Calendar. `travel-scheduler` needs the trigger tools of the `claude-code-remote` MCP server, and nothing else. `SETUP.md` has the whole matrix, the Drive folder convention, what to do on first use and how to verify that every connector actually responds.
+
+## What's new in 1.3
+
+**Sixth skill: `travel-db-repair`.** It comes out of a maintenance pass over 81 pages of the database, run by
+hand, and it exists because `travel-db-audit` was designed to find defects and route them and had nowhere to
+route them to. Everything beyond three mechanical corrections was proposed, nobody was going to do it by hand
+twice, and the findings accumulated. The repair skill is the write half of that pair.
+
+It carries six repair classes **in order of return**, which is the part that cannot be guessed from the
+outside. Duplicates first: not deleted, parked. The survivor is chosen by which page holds more real content,
+what only the loser has is moved into it, the relations are repointed, and the loser goes with
+`notion-move-pages` under a parking page outside the databases with a note saying why and what replaced it,
+which the user deletes with one click. Relations second, because they are what makes the database unnavigable
+and they are a property write with no content touched. Then data that is objectively false, then fake sources,
+then generation migration, then cosmetics in bulk.
+
+**Fake sources are the class worth naming on its own**, because they are invisible: the page looks filled,
+reads as researched, and cannot be checked. Dozens of `Link` cells all pointing at the same generic portal,
+generation residue like `utm_source=chatgpt.com` and `([turn0searchNN])` left in a URL. The rule is now written
+into `knowledge/page-standard.md` as a **link contract**: look for the real official site, and if it is not
+found remove the link and leave the name. Never swap a fake link for another generic one.
+
+**The generation marker**, also in `page-standard.md`. Every page carries `Ultimo aggiornamento` with the date
+**and the version of the spec it was written against**, so a future migration reads the footer and knows what
+is behind without opening everything. A date alone does not say whether a page is a generation old.
+
+**The operating rules the pass paid for**, now in the skill and in compact form in `CLAUDE.md`: parallelise by
+group of pages and never by class of defect, because two agents on the same pages with `update_content`
+overwrite each other silently; never `replace_content` on a page that has content, except a generation
+migration and only after the block by block mapping; `notion-fetch` can return a stale snapshot, so force a
+refresh before a structural edit; a placeholder is worse than a declared hole; re-fetch and verify after every
+page, and the section count never decreases; the web search budget is shared and finite, and when it runs out
+you write `da verificare` instead of reporting a figure you did not check, which is now the fallback in
+`knowledge/research-standard.md`; and what comes out of a table moves rather than disappears.
+
+**A factual error about the schema is corrected.** Two agents claimed the City data source has no `Maps`
+property. It does: `Maps` is a url property on City, and `knowledge/notion-travel-db.md` now carries all three
+schemas as complete tables with their types, plus the note that `Maps` is populated **at property level and not
+as a row inside the page**, because a Google Maps link written into the page body leaves the property empty and
+the link invisible to every query that lists the data source. `travel-db-audit` now detects an empty `Maps`, a
+fake source, and generation drift between pages written against different specs. `nation-city-pages` carries
+the link contract, the generation marker and the stale snapshot warning.
+
+**`SETUP.md` and `CLAUDE.md`** are new at the repo root: the first says which connector each of the six skills
+needs, what the `05_Viaggi` folder convention is, what to do on first use and how to verify that everything
+responds; the second is what an agent reads before working in this repo.
+
+Nothing was removed. The three `*-template.md` historical snapshots are untouched.
 
 ## What's new in 1.2
 
