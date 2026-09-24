@@ -1,7 +1,7 @@
 {
   "name": "travel-os",
-  "version": "1.0",
-  "description": "Travel operating system on top of the Notion Travels & City database: nation and city reference pages filled to the template, trip itineraries assembled from email and calendar, a pre-departure check, and a database audit. 4 skills: nation-city-pages, pre-departure-check, travel-db-audit, trip-itinerary.",
+  "version": "1.1",
+  "description": "Travel operating system on top of the Notion Travels & City database: nation and city reference pages filled to the template, trip itineraries assembled from email and calendar, a pre-departure check, the scheduled tasks that keep those two running on time, and a database audit. 5 skills: nation-city-pages, pre-departure-check, travel-db-audit, travel-scheduler, trip-itinerary.",
   "author": {
     "name": "Aron Clementi",
     "organization": "Orizon21 Group"

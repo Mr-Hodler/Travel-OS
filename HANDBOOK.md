@@ -1,10 +1,10 @@
 # Travel OS handbook
 
-The README presents Travel OS. This document is the manual you open with a skill about to run. For each of the four skills: the question it answers, the cases where it is the wrong tool, what it needs from you and from the skill upstream of it, exactly what lands in Notion when it finishes, how it works and the one or two rules that make its output different from a generic version of the same document, and what reads that output afterwards.
+The README presents Travel OS. This document is the manual you open with a skill about to run. For each of the five skills: the question it answers, the cases where it is the wrong tool, what it needs from you and from the skill upstream of it, exactly what lands in Notion when it finishes, how it works and the one or two rules that make its output different from a generic version of the same document, and what reads that output afterwards.
 
-The order below is the order the skills actually run. `nation-city-pages` builds the reference layer, `trip-itinerary` builds the trip on top of it, `pre-departure-check` verifies that trip 48 hours out, `travel-db-audit` keeps all of it honest between trips.
+The order below is the order the skills actually run. `nation-city-pages` builds the reference layer, `trip-itinerary` builds the trip on top of it, `travel-scheduler` puts that trip's reminders in place, `pre-departure-check` verifies the trip 48 hours out when the first of those reminders fires, `travel-db-audit` keeps all of it honest between trips.
 
-One rule sits above all four. The Notion environment already exists and is correct. No skill adds a property, renames a data source, or creates a parallel database. They fill and repair what is there.
+One rule sits above all five. The Notion environment already exists and is correct. No skill adds a property, renames a data source, or creates a parallel database. They fill and repair what is there.
 
 ---
 
@@ -50,7 +50,27 @@ Two rules make this different from a tidy itinerary. The first is **one trip, on
 
 ---
 
-## 3. pre-departure-check
+## 3. travel-scheduler
+
+**The question it answers.** The other skills know when they want to run. Who actually makes them run, at a time that means what it says, with a prompt that works in a session that remembers nothing, and who clears the tasks away when the trip is over.
+
+**When not to use it.** Not to do any of the work it schedules: the pre-departure pass is `pre-departure-check`, the sweep is `travel-db-audit`, the page refresh is `nation-city-pages` in enrichment mode. Not before a Travel page exists, because the fire times of a trip's tasks are derived from the `Dates` start on that page and a guessed date is worse than no task: with no page it says so and stops. Not to schedule an itinerary build, which is an event and not a date. And never to schedule anything that sends a message, books a transfer or makes a purchase.
+
+**What it needs from you.** The trip, or nothing at all when the ask is the monthly audit or an inventory of what is active. The dates, the destinations, the page ids and the related Nation and City pages are all read off the Travel page rather than asked for.
+
+**What it needs from upstream.** The Travel page from `trip-itinerary`, for its `Dates` and its relations, before any trip task can be created. The audit task needs nothing upstream: it is scheduled once and stays.
+
+**What you get back.** The tasks themselves, and a short report in Italian listing, per task, the name, the intended fire time in local time, the expression or the timestamp actually stored, and the approval setting. Three families. Two one-shot pre-departure tasks per trip, at 48 and at 12 hours before departure, calling `pre-departure-check` in full and short pass. One one-shot page refresh about ten days out, calling `nation-city-pages` in enrichment mode on the destination pages, because prices, opening hours, entry rules and who governs may have moved since those pages were written and the itinerary stands on them. One recurring monthly audit calling `travel-db-audit`, silent when the database is clean. Names are fixed, `Viaggio <destinazione> <data> - pre partenza 48h` and its siblings plus `Travel DB - audit mensile`, so a trip's tasks group together in `list_triggers` and a finished trip's tasks can be found and deleted rather than left to expire.
+
+**How it works.** `list_triggers` first, so a second copy of a task does not land beside the first. Read the Travel page for dates, destinations and relations. Compute each fire instant in local time, convert it, then create: `run_once_at` for the one-shots, `cron_expression` for the monthly audit, both through `create_trigger`. Report what was created with the approval setting. On maintenance runs the same inventory drives the rest: a trip whose dates moved has its tasks updated with `update_trigger`, which keeps the run history, a finished trip has its tasks deleted, a fired one-shot is left alone because disabling itself is what it is supposed to do, and a `last_run` that comes back FAILED twice is opened and read rather than recreated blindly.
+
+Two rules make this different from setting a reminder. The first is that **only the tools that outlive the session may create a task**, which means the `claude-code-remote` trigger tools and never `CronCreate`, `CronList` or `CronDelete`. Those run in an in-process scheduler that lives inside the session, so the task is discarded when the session ends: the call reports success, the user is told the reminder is set, and 48 hours before departure nothing fires and nothing reports the loss. It is the one defect in this repo that is invisible from both ends, which is why the skill names the forbidden tools explicitly instead of merely recommending the right ones. The second is that **a task is written for an amnesiac**: every firing starts a fresh session with no memory of the conversation, so the prompt names the page id with its title, the dates in full, the skill and its mode and the expected output, and every time is converted from Europe/Zurich to UTC with the day fields shifted when the conversion crosses midnight and the intended local time reported beside the expression. A prompt that says "controlla il viaggio" and a cron written in local time both fail the same way, at the moment nobody is watching.
+
+**What consumes it.** The scheduled runs of `pre-departure-check`, `nation-city-pages` and `travel-db-audit`, each of which arrives with the prompt this skill wrote and nothing else. The user consumes the report, and `list_triggers` is the record afterwards.
+
+---
+
+## 4. pre-departure-check
 
 **The question it answers.** The page was written days or weeks ago, so what is still open, what has changed since, and what has to happen before he walks out of the door.
 
@@ -66,13 +86,13 @@ Two rules make this different from a tidy itinerary. The first is **one trip, on
 
 Two rules keep the list worth reading. The first is that **every line has to require an action, so the skill is explicit about what is not a flag**: a forecast that shifts by one degree, a rate that moves under one percent, an advisory reworded with no change of substance, a gate not yet published. Reporting those trains him to skim, and a list that gets skimmed has no function. The second is the **separation of the two kinds of rot**, things that were open and never closed against things that were correct and have since changed, with sourcing discipline on the second: the airport over a flight tracker, the operator over a news article, the ministry over a travel blog, and where two sources disagree both go in the list, labelled as disagreeing, rather than one being picked silently.
 
-**On schedule.** Two one-off runs per trip, derived from the `Dates` start on the Travel page rather than from a recurring job, because the schedule belongs to the trip and not to the calendar. At 48 hours, the full pass, all four steps, while there is still time to book a transfer, chase a code or move a meeting. At 12 hours, the short pass over blocking items plus what goes stale fastest, weather, strikes, gate and terminal, plus any calendar event added since the first run, with no page rewrite unless something material changed. When a trip's dates move, both runs are re-derived and the old ones removed rather than left to fire against a date that no longer exists.
+**On schedule.** Two one-off runs per trip, derived from the `Dates` start on the Travel page rather than from a recurring job, because the schedule belongs to the trip and not to the calendar. `travel-scheduler` is what creates and maintains those two runs. At 48 hours, the full pass, all four steps, while there is still time to book a transfer, chase a code or move a meeting. At 12 hours, the short pass over blocking items plus what goes stale fastest, weather, strikes, gate and terminal, plus any calendar event added since the first run, with no page rewrite unless something material changed. When a trip's dates move, both runs are re-derived and the old ones removed rather than left to fire against a date that no longer exists.
 
 **What consumes it.** He does. The updated callout is also the baseline for the 12 hour run, and `travel-db-audit` reads the page afterwards like any other.
 
 ---
 
-## 4. travel-db-audit
+## 5. travel-db-audit
 
 **The question it answers.** What in this database is quietly wrong, before a trip finds it instead.
 
@@ -90,7 +110,7 @@ Six classes are detected: incomplete pages by residual placeholder token, empty 
 
 Two rules separate this from a generic database report. The first is **list, do not fetch, and state the coverage**: the run says how many pages were listed and how many were opened, so the reader can see what the report does and does not cover instead of assuming it saw everything. The second is that **age is a suspicion, not a finding**: a cheap high value live check is run where it is worth it, who governs and the exchange rate, and anything else stays recorded as `da verificare` with the age that raised it, never as a corrected value the run did not verify. The three safe fixes it may apply without asking are mechanical, unambiguous and reversible, deleting a leftover `Jarvis`, `Operational instructions` or `Guidance` block, setting a City's `Nation` when exactly one Nation page matches, and adding a missing `Nations` relation on a Travel that already relates to a City of that nation, and each one appears in the table marked `corretto` and again under `Correzioni applicate`, because a change that is not in the report did not happen.
 
-**Unattended.** Fit for a monthly schedule, plus seven days before the start date of any Travel page. It is **silent when clean**, one line and no notification, because a monthly audit that always says something is an audit nobody reads after the third month. Unattended it reports Alta and Media only, Bassa being noise with no person present to say whether it matters, and those findings are still there on the next on demand run. The three safe fixes still apply and are still reported, and nothing else writes when no one is there to confirm.
+**Unattended.** Fit for a monthly schedule, plus seven days before the start date of any Travel page. The monthly task itself is owned by `travel-scheduler`. It is **silent when clean**, one line and no notification, because a monthly audit that always says something is an audit nobody reads after the third month. Unattended it reports Alta and Media only, Bassa being noise with no person present to say whether it matters, and those findings are still there on the next on demand run. The three safe fixes still apply and are still reported, and nothing else writes when no one is there to confirm.
 
 **What consumes it.** The findings route out: incomplete or stale Nation and City pages to `nation-city-pages` in enrichment mode, split trips and thin itineraries to `trip-itinerary`, and merges, renames and archiving to the user.
 
@@ -98,7 +118,7 @@ Two rules separate this from a generic database report. The first is **list, do 
 
 ## The three shared standards
 
-All three live in `knowledge/` and are bundled into every package at that same path, so a skill installed on its own still resolves them. Every skill reads all three before writing anything, on every run, not once at install time.
+All three live in `knowledge/` and are bundled into every package at that same path, so a skill installed on its own still resolves them. Every skill that writes a page reads all three before writing anything, on every run, not once at install time. `travel-scheduler` writes no page: it reads `notion-travel-db.md` alone, to resolve the ids and dates its task prompts have to name.
 
 | File | What it settles | Read it when |
 | --- | --- | --- |
@@ -115,9 +135,10 @@ The ids in `notion-travel-db.md` save a search. They do not replace fetching and
 | `nation-city-pages` | required, read and write | no | no | required, every run, for everything the research standard lists as live |
 | `trip-itinerary` | required, read and write | required: Spark across all four accounts, Gmail where Spark truncates a body | required: Google Calendar over the trip dates plus one day either side | only for context, never for booking facts |
 | `pre-departure-check` | required, read and write | required, to re-check bookings and codes | required, to catch meetings added after the page was written | required, for every item in `references/live-checks.md` |
+| `travel-scheduler` | required, read only, for the `Dates` and the relations of the trip a task is built around | no | no | no |
 | `travel-db-audit` | required, read and limited write | no | no | targeted checks only, where cheap and high value |
 
-The plugin as a whole therefore needs the Notion connector, plus Spark or Gmail and Google Calendar for the two trip skills.
+The plugin as a whole therefore needs the Notion connector, plus Spark or Gmail and Google Calendar for the two trip skills. `travel-scheduler` needs one thing no other skill uses, the trigger tools of the `claude-code-remote` MCP server: `create_trigger`, `list_triggers`, `update_trigger`, `delete_trigger`. Without them it cannot create a task that survives the session, and there is no fallback worth using.
 
 ## Build and verify
 
