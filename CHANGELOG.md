@@ -1,5 +1,103 @@
 # Changelog
 
+## 1.4
+
+**The pages were measured, and the measurement did not say what anybody expected.**
+
+The feedback was blunt. The pages had become a broth of words. Reading one city took two hours and the
+information he needed was not findable in it. **Half the current text would have been more than enough.**
+The length reference he named was the Chinese city pages, as he had made them: straight to the point, no
+useless words, no verbosity, ordered, with links and bold where they help the eye land on the datum.
+Nothing was to be lost.
+
+So fourteen live pages were fetched and counted before anything was written: Chongqing, Guangzhou and
+Shenzhen as the named reference, then Zurich, Warsaw, Helsinki, Davos, Viareggio, Lugano, Dubai, and the
+Poland, Finland, Switzerland and Thailand nation pages. **The Chinese pages are not shorter.** Median body
+of the three: **83,804 characters**. Median of the other seven city pages: **84,569**. The ratio is 0.99.
+The reference the feedback was anchored to had drifted along with everything else, because those pages have
+been through the same enrichment passes as the rest, and there was no short page left in the database to
+copy. Dubai measured 106,835, Viareggio 98,864, Warsaw 93,344, and Lugano, the shortest city page at
+48,823, is not the worst one to read.
+
+That result decided the method. "Start from the Chinese median and do not exceed it by much" would have set
+a cap of 84,000 characters and changed nothing, so the caps are derived from the one number the feedback
+actually gave, which is **half**, and from the operational rule behind it: a datum is found in twenty
+seconds, a page is read in five minutes.
+
+**The density budget, now in `knowledge/page-standard.md` and repeated in every skill that writes a page:**
+
+| Cap | Limit | What it was measured against |
+| --- | --- | --- |
+| City page body, total | **42,000 characters** | half the City median of 84,569 |
+| Nations page body, total | **32,000 characters** | Nations median 52,595, so above half of it. Switzerland 38,966 and Thailand 35,295 are the closest today, Poland 97,892 is the outlier |
+| One numbered section | **4,500 characters** | section medians 6,925 city and 4,331 nation. The worst single section measured **21,499**, and on nine city pages out of ten the worst one is section 7, attractions |
+| History toggle | **3,500 characters** | `City History` median 3,522, Switzerland 3,107, Thailand 3,175, against Poland's `Storia` at 11,003 |
+| One table cell | **300 characters** | the median cell is 25 characters, so the cap only touches outliers. Between 1 and 12 cells per page exceed it today, the worst 1,470 |
+| One block of prose | **3 consecutive lines** | measured runs of consecutive prose lines run from 3 to 8 |
+
+**The caps are measured, not estimated.** `notion-fetch` the page and count the characters of the
+`<content>` block, markup included, and per section count from one `## N.` heading to the next. That was
+chosen because it is the only count two agents will agree on and because it needs no tooling that does not
+already exist in every skill. A page over its cap is compressed and then saved, never saved and flagged.
+
+**Caps alone would have produced shorter pages that are just as hard to read**, which is why the other half
+of the change is a form contract, `How to write a line` in the same file. **A table beats a paragraph**
+whenever there are more than two comparable entries: tables are now stated to be the default format of this
+database and prose the exception, which is the reverse of what the style rules said before. One line, one
+fact, with no sentence whose job is to say that the fact is interesting. Bold goes on the search key, the
+name or the price or the time the eye is hunting for, never on a whole clause, because a page where
+everything is bold has nothing bold. The link goes on the name, never on `clicca qui` and never on a
+sentence. Connective and editorial sentences go outright, `vale la pena notare che` and `è importante
+ricordare che` and every variant, with the fact behind them kept. No datum lives in two sections, because a
+figure written twice becomes two figures that disagree. A caution clause becomes `da verificare` or one note
+at the end of the section, never a paragraph of hedging. `Do`, `Don't` and `Cosa non dire` are lists on both
+page types, never paragraphs, because a paragraph of etiquette advice is unreadable at the moment it is
+needed, which is standing in a room.
+
+**And the rule that governs all of them, stated everywhere the caps are stated: compressing is not cutting.**
+Every fact, figure, address, opening hour, link and `da verificare` entry survives the pass. Only the words
+around them go. A page whose character count fell because content left it has not been compressed, it has
+been damaged, and the damage is invisible in exactly the way a fake source is invisible: the page looks
+tidy, reads well, and no longer holds what the reader opened it for. It is the same principle as
+`what comes out of a table moves, it is not deleted` from 1.3, applied to prose.
+
+**The history toggle moved inside section 1.** It used to sit above the first numbered section on nation
+pages, which meant the page opened with a history lesson when what the reader wanted was a phone number.
+`nations-spec.md` now carries `Storia del paese` as a nested `<details>` inside `1. Entry, Visas, and
+Rules`, `city-spec.md` states that `City History` is nested inside `1. Quick links` and stays there, and a
+toggle floating above section 1 is now a pre-1.4 generation defect the repair skill moves rather than
+rewrites.
+
+**New entries in the specs, all of them synthetic by construction.** City section 2 gains
+**`Top quartieri dove stare`**, with Quartiere, Per chi, Prezzo, Tempo dal centro and Nota, three to five
+rows and no more, built to answer `dove dormo` in a single row: `Per chi` picks one profile and not three,
+`Tempo dal centro` is minutes and the mode rather than the word `central`, and `Nota` is the one detail that
+decides it. City section 10 gains **`Centri finanziari e distretti business`**, where they physically are by
+district and by the landmark a taxi understands with the time from the centre, and **`Come fare business
+qui`** as a dry list of seven points and never prose. Nations section 6 has `Fare business nel paese`
+restated as a dry list. And the duplicated bullets in City section 8, where `Where to eat` appeared three
+times and `What to try` twice, were collapsed: an agent reading that spec wrote the same content three times,
+which was a direct contribution to the length this release exists to cut.
+
+**`travel-db-audit` gained a defect class, `page over the density cap`**, with the procedure to measure it
+rather than judge it: count the `<content>` block for the body, split on `## ` headings for the sections and
+report the longest by name, then three spot checks for the history toggle, the longest `<td>` cell and the
+longest run of consecutive prose lines. It is free on any page the audit already opened, so it is never a
+reason to open one and never skipped on one that is open. A density finding carries the measured number
+against the cap, so `corpo 106.835 caratteri su un tetto di 42.000, sezione 7 da 18.074`: the word `lunga`
+is not a finding, for the same reason `incompleta` was never one.
+
+**`travel-db-repair` gained the compression pass** as a seventh class, with the order of operations that
+makes it cheap: measure first so the work starts on the section that is actually over rather than the one
+that reads badly, then per section turn comparable runs into tables, delete the connectives, move bold onto
+the key and the link onto the name, reduce cautions to `da verificare` and delete the second copy of any
+repeated datum leaving a pointer behind. The class is listed last and flagged with the warning that its
+obvious shortcut, deleting rows, is its failure mode.
+
+**Not done here, deliberately.** No Notion page was rewritten in this release. The caps were set, measured
+and written into the repo so that the agents that do rewrite the pages work to a number instead of to an
+adjective.
+
 ## 1.3
 
 **Sixth skill, `travel-db-repair`, written out of a real maintenance pass over 81 pages of the Travels & City database.**

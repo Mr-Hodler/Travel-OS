@@ -26,7 +26,7 @@ are the ones it paid for.
 | File | What it settles |
 | --- | --- |
 | `knowledge/notion-travel-db.md` | the three data sources, the exact and complete property schemas, relation direction, the one trip one page rule, the naming conventions |
-| `knowledge/page-standard.md` | what complete means, the link contract, the generation marker, the style rules, the verification pass |
+| `knowledge/page-standard.md` | what complete means, **the density budget and the form rules in `How to write a line`**, the link contract, the generation marker, the style rules, the verification pass |
 | `knowledge/research-standard.md` | which facts have to be checked live, the fallback when the search budget runs out, and how an unconfirmed figure is marked |
 | `knowledge/templates/nations-spec.md` | the current required shape of a Nations page, which is the target of a generation migration |
 | `knowledge/templates/city-spec.md` | the same for City |
@@ -146,6 +146,45 @@ mid-word, instructions addressed to the assistant still sitting in the page, res
 Mechanical, and therefore done in bulk across every page in the cluster in one pass rather than page by
 page inside the other five classes. It is the last class because it is the only one where a reader who
 notices the defect can ignore it.
+
+## Compression, the seventh class
+
+Added in 1.4, after the reader said the pages had become a broth of words and that half the text would
+have been more than enough. It is listed after cosmetics because it is the widest class in the database:
+measured on 2026-09-25, **the median City page body was 84,569 characters against a cap of 42,000**, and
+the three Chinese city pages held up as the length reference measured 83,804, so every page is over.
+
+**The caps, and they are in `knowledge/page-standard.md` under `Density budget`:**
+
+| Cap | Limit |
+| --- | --- |
+| City page body, total | **42,000 characters** |
+| Nations page body, total | **32,000 characters** |
+| One numbered section | **4,500 characters** |
+| History toggle, `City History` or `Storia del paese` | **3,500 characters** |
+| One table cell | **300 characters** |
+| One block of prose | **3 consecutive lines**, then a table or a list |
+
+**How a page is compressed, in this order.** Measure first: `notion-fetch` and count the `<content>`
+block, then each section from one `## N.` heading to the next, so the work starts on the section that is
+actually over rather than on the one that reads badly. Then, per section: turn every run of more than two
+comparable entries into a table, delete the connective and editorial sentences outright, move bold off
+clauses and onto the name or the price or the time, move the link off the phrase and onto the name, reduce
+each caution clause to `da verificare` or one note at the end of the section, and delete the second copy
+of any datum that appears in two sections while leaving a pointer in its place. The section that is over
+by the most on almost every city page is **section 7, attractions**, which measured up to 21,499
+characters on its own.
+
+**The rule that governs the whole class: compressing is not cutting.** Every fact, figure, address,
+opening hour, link and `da verificare` entry survives. Only the words around them go. **This is the one
+class of this skill where the obvious shortcut, deleting rows, is the failure mode**, and it is the same
+rule as `what comes out of a table moves, it is not deleted` below. A page whose count fell because
+content left it has been damaged, not repaired, and the damage is invisible in exactly the way a fake
+source is invisible: the page looks tidy and no longer holds what the reader went there for.
+
+**Structural fix that travels with the compression pass.** The history toggle is **nested inside section
+1** on both page types. A `Storia del paese` toggle sitting above the first numbered section is a
+generation defect from before 1.4: move it inside section 1 as its first block, do not rewrite it.
 
 ## Operating rules, learned the expensive way
 

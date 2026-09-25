@@ -25,7 +25,7 @@ Not for: writing or refreshing the Nation and City pages behind the trip, which 
 ## Mandatory reading, before writing anything
 
 - `knowledge/notion-travel-db.md`: the three data sources, the exact property names, the relation order, the naming conventions.
-- `knowledge/page-standard.md`: the output contract, the style rules, the verification pass.
+- `knowledge/page-standard.md`: the output contract, **the density budget and the form rules in `How to write a line`**, the style rules, the verification pass.
 - `knowledge/research-standard.md`: what must be checked live, and the rule that trip data comes from the inbox and not from the web.
 - `knowledge/drive-convention.md`: the Drive folder behind every trip, its canonical names, what belongs in Drive and what belongs on the page.
 - `references/inbox-harvest.md`: the query patterns per account and the subagent brief for oversized results.
@@ -58,6 +58,28 @@ Everything factual comes from the inbox and the calendar. Nothing is reconstruct
 Reproduce the template. For a trip that is not complex, the simplified shape in `references/page-skeleton.md` applies: flights and transfers, accommodation, one single chronological table holding every fixed commitment, the day-by-day block G1 to Gn, the free day if there is one, per-city logistics, the checklist. One table for the whole trip, not one per city.
 
 Travel rows, meaning flights and transfers, get a green row background. Days that are fully committed by work get a blue one. The colours are the fastest read on the page: green is when he is moving, blue is when he is not free.
+
+## Density and form
+
+The same complaint that produced the density budget applies to a trip page, and harder: this page is read
+standing in an airport. **The caps and the form rules are in `knowledge/page-standard.md`, sections
+`Density budget` and `How to write a line`**, and the ones that bind here are:
+
+- **One numbered section: 4,500 characters. One table cell: 300. One block of prose: 3 consecutive lines,
+  then it becomes a table or a list.** A Travel page has no body cap of its own because its length is set
+  by the number of days, but a day that needs more than a row and a note is a day that is hiding a
+  decision nobody has made yet.
+- **A table beats a paragraph** whenever there are more than two comparable entries. On this page that is
+  almost always: legs, stays, transfers, meetings, costs. Prose is for the callout and nothing else.
+- **One line, one fact.** A PNR, a time, a platform, a code, a price. No sentence explaining why the
+  transfer is tight: if it is tight, it goes in the `DA RISOLVERE` callout as a line with a deadline.
+- **Bold on the search key**, so the time, the code, the gate, the address. The reader is scanning for one
+  string, not reading.
+- **The link goes on the name** of the airline, the hotel, the venue. Never on `clicca qui`.
+- **No datum in two places.** A flight time written in the flights table and again in the day-by-day is
+  two times that will disagree after the first schedule change. The day-by-day names the leg and stops.
+- **Compressing is not cutting.** Every code, time, price, address and `da verificare` survives. Losing a
+  lockbox code to brevity is the one failure on this page that cannot be recovered on the day.
 
 ## The DA RISOLVERE callout
 

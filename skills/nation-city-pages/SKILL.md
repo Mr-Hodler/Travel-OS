@@ -25,7 +25,7 @@ All three, before writing anything. They are bundled into this package at these 
 
 | File | What it settles |
 | --- | --- |
-| `knowledge/page-standard.md` | the fill contract, what is always required on top of the template, the link contract, the generation marker, the style rules, the verification pass |
+| `knowledge/page-standard.md` | the fill contract, what is always required on top of the template, **the density budget and the form rules in `How to write a line`**, the link contract, the generation marker, the style rules, the verification pass |
 | `knowledge/notion-travel-db.md` | data source ids, property schemas, relation direction, naming conventions, the reference pages worth copying for density |
 | `knowledge/research-standard.md` | what has to be checked live and what can be written from knowledge |
 
@@ -68,14 +68,48 @@ generic or stale. A page that loses a good address because it was easier to star
 
 | Required | Where | What makes it pass |
 | --- | --- | --- |
-| `Storia del <paese>` | nation, a `<details>` toggle before section 1 | dense prose on why the country is the way it is today, not a chronology of dates |
-| `City History` | city, the existing toggle | written dense. One line is a failure |
+| `Storia del paese` | nation, a `<details>` toggle **nested inside section 1** as its first block | dense prose on why the country is the way it is today, not a chronology of dates. Cap 3,500 characters |
+| `City History` | city, the existing toggle **nested inside section 1** | written dense. One line is a failure, and so is anything over 3,500 characters |
 | Two food lists | city, section 8 | `Da provare, buoni` and `Da provare, strani o divisivi` kept separate. Per entry: what it is, what to expect, and where to get it with a real address |
 | Do and Don't | culture sections, both page types | concrete and local, including the taboos that cause real offence and why. Generic guidebook politeness is filler |
 | Politics | nation | who governs today, by name, web verified. Never from model memory |
 | Embassies | nation | Swiss and Italian: address, phone, email, and the out of hours consular emergency number |
 | Work | both | the reader does Bitcoin business development. Local crypto regulation and its current real state, exchanges, community, VC, and how business is actually conducted on the ground |
 | Gym and routine | city | day pass gyms with prices near where the reader is staying. He trains every day |
+
+## The density budget, and it is a hard limit
+
+The reader's complaint that produced it, in his words: the pages had become a broth of words, two hours to
+read one city, and half the text would have been more than enough. Measured on 2026-09-25, the median City
+page body was **84,569 characters** and the three Chinese city pages held up as the reference measured
+**83,804**, so there was no short reference left anywhere in the database.
+
+**Write to these numbers. A page over any of them is compressed before it is saved, never saved and flagged.**
+
+| Cap | Limit |
+| --- | --- |
+| City page body, total | **42,000 characters** |
+| Nations page body, total | **32,000 characters** |
+| One numbered section | **4,500 characters** |
+| History toggle, `City History` or `Storia del paese` | **3,500 characters** |
+| One table cell | **300 characters** |
+| One block of prose | **3 consecutive lines**, then a table or a list |
+
+**Measure it, do not estimate it.** `notion-fetch` the page and count the characters of the `<content>`
+block, markup included. Per section, count from one `## N.` heading to the next.
+
+**The form rules are how the numbers are reached**, and they are in `knowledge/page-standard.md` under
+`How to write a line`. The short version: **a table beats a paragraph** whenever there are more than two
+comparable entries, and prose is the exception in this database rather than the default. One line, one
+fact. Bold on the search key, the name or the price or the time, never on a whole clause. The link on the
+name, never on `clicca qui`. No connective or editorial sentences: `vale la pena notare che` and every
+variant go. No datum written in two sections. A caution clause becomes `da verificare`, not a paragraph
+of hedging. `Do`, `Don't` and `Cosa non dire` are lists, never paragraphs.
+
+**Compressing is not cutting**, and this is the line that matters most. Every fact, figure, address,
+opening hour, link and `da verificare` entry survives the compression. Only the words around them go. A
+page whose character count fell because content left it has not been compressed, it has been damaged, and
+that is a worse defect than the length it was meant to fix.
 
 ## Three rules that do not come from the template
 
@@ -115,6 +149,14 @@ When more than one page is wanted in a run, fan out, but keep the write order in
 
 Re-fetch the written page, then work down this list. A page that fails any line is not finished.
 
+- [ ] the body is inside its cap: **42,000 characters** on a City page, **32,000** on a Nations page,
+      counted on the `<content>` block as `notion-fetch` returns it
+- [ ] no numbered section over **4,500** characters, no history toggle over **3,500**, no table cell
+      over **300**, no block of prose longer than **3 consecutive lines**
+- [ ] the history toggle is nested inside section 1 on both page types, not floating above it
+- [ ] `Do`, `Don't` and `Cosa non dire` are lists, not paragraphs
+- [ ] no datum repeated in two sections
+- [ ] nothing lost to the compression: every fact, address, hour, link and `da verificare` still there
 - [ ] no residual placeholder: `[Area A]`, `[District 1]`, `[Hotel 1]`, `[Club 1]`, `[X]`, `[link]`,
       `[Amount]`, `YYYY-MM-DD`
 - [ ] no empty table cell, and no table row still generic

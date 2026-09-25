@@ -19,6 +19,13 @@ page and stays.
 Section names, their emoji and their numbering are kept exactly as they read in
 Notion.
 
+**Density.** A City page body is capped at **42,000 characters**, one numbered section at **4,500**,
+the `City History` toggle at **3,500**, one table cell at **300**, and a block of prose at
+**3 consecutive lines** before it has to become a table or a list. The budget, how to measure it and the
+form rules that make it reachable are in `knowledge/page-standard.md`, sections `Density budget` and
+`How to write a line`. **A table beats a paragraph whenever there are more than two comparable entries.**
+
+
 ---
 
 <callout icon="📌" color="yellow_bg">
@@ -33,7 +40,8 @@ Notion.
 	- **See also:** \[Nation page\] for national rules
 	<details>
 	<summary>**City History **</summary>
-		Explain here the History of the city, the past, the history, why is known (wars, tech, politics, culture, and so on) , the local context and the highlight to know about the place. 
+		Explain here the History of the city, the past, the history, why is known (wars, tech, politics, culture, and so on) , the local context and the highlight to know about the place.
+		**Nested inside section 1 and it stays there**, never lifted above the first numbered section: the page opens with links and numbers, not with a history lesson. Cap 3,500 characters.
 	</details>
 ## 2. 🏙️ Local context (city‑only) {toggle="true"}
 	- **Country:** \[\[Link to Nation page\]\] • **Time zone:** GMT±X (DST: \[Yes/No\])
@@ -68,6 +76,39 @@ Notion.
 <td>low/med/high</td>
 <td>\$/\$\$/\$\$\$</td>
 <td>\[parks, families\]</td>
+</tr>
+		</table>
+	- **Top quartieri dove stare**, the table that answers `dove dormo` in one row. It replaces the
+	  `Where to stay` snapshot above as the one a reader actually uses, and every column is filled.
+	  Three to five rows, no more: a list of twelve districts answers nothing.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>**Quartiere**</td>
+<td>**Per chi**</td>
+<td>**Prezzo**</td>
+<td>**Tempo dal centro**</td>
+<td>**Nota**</td>
+</tr>
+<tr>
+<td>**\[Quartiere 1\]**</td>
+<td>\[business, prima volta, vita notturna, famiglia, lungo soggiorno: pick one, not three\]</td>
+<td>\[local currency / CHF a notte, fascia reale\]</td>
+<td>\[minutes and the mode, so 12 min metro, not "central"\]</td>
+<td>\[the one thing that decides it, noise, safety after dark, dead on Sundays\]</td>
+</tr>
+<tr>
+<td>**\[Quartiere 2\]**</td>
+<td>\[who it is for\]</td>
+<td>\[local currency / CHF a notte\]</td>
+<td>\[minutes and the mode\]</td>
+<td>\[the deciding detail\]</td>
+</tr>
+<tr>
+<td>**\[Quartiere 3\]**</td>
+<td>\[who it is for\]</td>
+<td>\[local currency / CHF a notte\]</td>
+<td>\[minutes and the mode\]</td>
+<td>\[the deciding detail\]</td>
 </tr>
 		</table>
 	- **When to visit:** city seasonality
@@ -180,12 +221,12 @@ Notion.
 	- **Internet & power:** typical Wi‑Fi quality/security; note unusual power quirks
 	- **Work‑friendly spots:** coworkings and cafés with reliable Wi‑Fi
 ## 6. 🧭 Culture & customs (city specifics) {toggle="true"}
-	- **Do's / Don'ts:** essentials
-	- **Do**, explicit and specific to this city, never generic guidebook politeness
+	- **Do**, explicit and specific to this city, never generic guidebook politeness. **List form, never a paragraph.**
 		- One line per item, with the reason it matters here
-	- **Don't**, explicit and specific to this city
+	- **Don't**, explicit and specific to this city. **List form, never a paragraph.**
 		- One line per item, with what actually happens if you do it
-	- **Cosa non dire:** the subjects that cause real offence in this city, one line each on why. Not awkwardness, offence.
+	- **Cosa non dire**, the subjects that cause real offence in this city. **List form, never a paragraph.** Not awkwardness, offence.
+		- One line per item, with why it lands badly
 	- **Useful phrases:** with pronunciation
 	- **Festivals & city holidays:** with impact
 	- **Business culture & etiquette:**
@@ -435,18 +476,10 @@ Notion.
 </tr>
 		</table>
 ## 8. 🍽️ Food & drink (city specialties) {toggle="true"}
-	- **What to try:** local dishes and drinks with recommendations and prices
 	- **Where to eat:** Budget / Mid / Fine dining options
 	- **Where to have breakfast:** best spots for morning meals
 	- **Where to make groceries:** supermarkets and local markets
-	- **Coffee & work:** 2–3 cafés with reliable Wi‑Fi
-	- **Where to eat:** Budget / Mid / Fine dining options
-	- **What to try:** local dishes and drinks with recommendations and prices
-	- **Where to eat:** Budget / Mid / Fine dining options
-	- **Where to have breakfast:** best spots for morning meals
-	- **Where to make groceries:** supermarkets and local markets
-	- **Coffee & work:** 2–3 cafés with reliable Wi‑Fi
-	- **Where to eat:** Budget / Mid / Fine dining options
+	- **Coffee & work:** 2 or 3 cafés with reliable Wi‑Fi
 	- **Da provare, buoni:** the dishes worth eating, each with a venue that actually serves it
 		<table>
 <tr>
@@ -540,6 +573,20 @@ Notion.
 	- **Local companies:**  Local Big and relevant company, to be aware, visit or to make business with.
 	- **Consolati e camere di commercio:** Swiss and Italian consular presence in this city with address, phone, email and the out of hours consular number, plus the Swiss chamber and the local chambers of commerce with the person to contact
 	- **Eventi tech ricorrenti:** the conferences, meetups and hackathons that come back every year, the month each one falls in, and whether it is worth planning a trip around
+	- **Centri finanziari e distretti business:** where they physically are, by district name and by the
+	  landmark or street a taxi understands, with the walking or transit time from the centre. Which sector
+	  sits in which one, so banks here, tech there, the old exchange floor somewhere else. One line per
+	  district, a table from four districts up. The answer to `where do I go for a meeting`, not an essay
+	  on the local economy.
+	- **Come fare business qui**, a dry list and never prose. One line per entry, the answer first.
+		- **Come si ottiene un primo incontro:** the channel that actually works here, introduction, cold
+		  email, LinkedIn, an event, a chamber of commerce
+		- **Dove si tengono gli incontri:** office, hotel lobby, restaurant, coworking, and which one signals what
+		- **Chi decide nella stanza:** who to address, who is present but not deciding
+		- **Cosa portare:** business cards, printed deck, nothing, and whether the card ritual matters
+		- **Tempi di risposta e follow up:** how long silence means no, when to chase and how
+		- **Lingua della riunione e delle email:** which one, and whether an interpreter is expected
+		- **Cosa fa chiudere un affare qui e cosa lo uccide:** the local specific, not general advice
 ---
 ## 🗓️ Ultimo aggiornamento
 - **Data:** the day this page was last brought current

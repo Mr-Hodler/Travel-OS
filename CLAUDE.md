@@ -22,6 +22,47 @@ price near where he sleeps, and why food is two lists instead of one.
   belongs makes the page ungrammatical, and it has shipped twice.
 - 24 hour times. Prices in local currency with a CHF conversion and the rate with its date.
 - Where a figure cannot be verified, `da verificare`. Never a guess, and never a placeholder.
+- **A page has a character budget and a form contract**, see the section below. Prose is the exception in
+  this database, a table is the default.
+
+## Density, and the numbers are the rule
+
+The pages had become a broth of words: two hours to read one city and the datum not findable. Measured on
+2026-09-25 across fourteen live pages, the median City body was **84,569 characters** and the three Chinese
+city pages named as the length reference measured **83,804**, so the reference had drifted too and there is
+no short page left to copy. The caps below are the reader's own "half would have been enough", made
+checkable. Full derivation in `knowledge/page-standard.md`, `Density budget`.
+
+| Cap | Limit |
+| --- | --- |
+| City page body, total | **42,000 characters** |
+| Nations page body, total | **32,000 characters** |
+| One numbered section | **4,500 characters** |
+| History toggle, `City History` or `Storia del paese` | **3,500 characters** |
+| One table cell | **300 characters** |
+| One block of prose | **3 consecutive lines**, then a table or a list |
+
+**Measured, not estimated:** count the characters of the `<content>` block as `notion-fetch` returns it,
+markup included. Per section, from one `## N.` heading to the next. A page over a cap is compressed and then
+saved, never saved and flagged.
+
+**Form, because caps alone give shorter pages that still cannot be read.** Full rules in
+`knowledge/page-standard.md`, `How to write a line`.
+
+- **A table beats a paragraph** whenever there are more than two comparable entries. **Tables are the
+  default format of this database, prose is the exception.**
+- **One line, one fact.** No sentence explaining that the fact is interesting.
+- **Bold on the search key**, the name or the price or the time. Never on a whole clause.
+- **The link on the name.** Never on `clicca qui`, never on a sentence.
+- **No connective or editorial sentences.** `vale la pena notare che`, `è importante ricordare che` and
+  every variant go, the fact behind them stays.
+- **No datum in two sections.** Written twice, it becomes two figures that disagree.
+- **A caution clause becomes `da verificare`**, or one note at the end of the section.
+- **`Do`, `Don't` and `Cosa non dire` are lists**, never paragraphs, on both page types.
+- **The history toggle is nested inside section 1** on both page types, never above it.
+- **Compressing is not cutting.** Every fact, figure, address, hour, link and `da verificare` entry
+  survives, only the words around them go. A count that fell because content left the page is damage, not
+  compression.
 
 ## The repo standard
 

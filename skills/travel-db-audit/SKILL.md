@@ -23,7 +23,7 @@ is visible from the database view. This skill finds it on a schedule, so a trip 
 
 | File | What it settles |
 | --- | --- |
-| `knowledge/page-standard.md` | defines what complete means, therefore what incomplete means, and lists the placeholder tokens to hunt |
+| `knowledge/page-standard.md` | defines what complete means, therefore what incomplete means, lists the placeholder tokens to hunt, and carries **the density budget** that defines what over-long means |
 | `knowledge/notion-travel-db.md` | the three data source ids, the property schemas, relation direction, the one trip one page rule |
 | `knowledge/research-standard.md` | which facts rot, therefore which pages are stale by age alone |
 | `knowledge/drive-convention.md` | the Drive folder per trip, the canonical names, and the current list of folders and pages that do not correspond |
@@ -43,6 +43,7 @@ is visible from the database view. This skill finds it on a schedule, so a trip 
 | **Fake sources** | many `Link` cells pointing at the same generic portal, a search result URL standing in for a site, generation residue such as `utm_source=chatgpt.com` or `([turn0searchNN])`, a link whose text and target do not name the same thing. The page looks filled and is not verifiable, which is what makes this the most dangerous class | page content, fetch required |
 | **Generation drift** | a page written against an older spec: sections missing against the current `*-spec.md`, or an `Ultimo aggiornamento` block that names an older spec version or names none at all. Nothing on the page looks wrong, it is simply a generation behind | the footer marker, then the section count against the spec |
 | **Empty `Maps` on a City** | a City page whose `Maps` url property is blank, or whose Google Maps link was written as a row inside the page body instead of into the property, which leaves the property empty and the link invisible to every query. `Maps` exists on the City data source, see the schema in `knowledge/notion-travel-db.md` | the row listing alone |
+| **Page over the density cap** | a page whose body exceeds its cap, or that breaks one of the per-part caps: **body over 42,000 characters on a City page or 32,000 on a Nations page, any numbered section over 4,500, the `City History` or `Storia del paese` toggle over 3,500, any table cell over 300, any block of prose longer than 3 consecutive lines**. The page is complete and correct and still unusable, because the reader cannot find a datum in it. Caps and their derivation in `knowledge/page-standard.md`, `Density budget`. A structural variant of the same class: the history toggle sitting **above** section 1 instead of nested inside it, which is a pre-1.4 generation defect | page content, fetch required |
 
 Staleness thresholds: a page is stale at **12 months** since its footer date, and at **6 months** if a
 Travel page relates to it with dates inside the next 90 days. An imminent trip raises the bar on its own
@@ -63,7 +64,17 @@ reference pages.
 4. **Verify the rot, do not assume it.** Age is a suspicion, not a finding. Run the live check where it is
    cheap and high value, so who governs and the exchange rate. Where a live check is not worth it in this
    run, the finding is recorded as `da verificare` with the age that raised it, never as a corrected value.
-5. **Write the report.** Shape in `references/report-template.md`.
+5. **Measure the density on every page opened.** It costs nothing beyond the fetch already made, so it is
+   never a reason to open a page and never skipped on a page that is open. Count the characters of the
+   `<content>` block as `notion-fetch` returns it, markup included: that is the body figure. Then split on
+   the `## ` headings and take the length from one `## N.` heading to the next: that is the per-section
+   figure, and the longest section is reported by name because it is where the repair starts. Then the
+   three spot checks: the length of the `<details>` block whose summary is `City History` or
+   `Storia del paese`, the longest `<td>` cell, and the longest run of consecutive prose lines, meaning
+   lines that are not a bullet, a table tag or a heading. Report the measured number against the cap, so
+   `Dubai 106,835 / 42,000`, never the word `long`. A page under every cap is not a finding and is not
+   listed.
+6. **Write the report.** Shape in `references/report-template.md`.
 
 ## Output
 
@@ -73,7 +84,7 @@ A table, ordered by severity and then by the imminence of the trip that depends 
 | --- | --- |
 | Pagina | name and link |
 | Tipo | Nation, City or Travel |
-| Problema | the specific defect, with the token or the empty field named. "Incompleta" is not a finding |
+| Problema | the specific defect, with the token or the empty field named. "Incompleta" is not a finding, and neither is "lunga": a density finding carries the measured number against the cap and the longest section by name |
 | Gravità | Alta, Media, Bassa |
 | Azione consigliata | one imperative line, with the skill that does it |
 
@@ -84,7 +95,7 @@ nothing imminent depending on it. **Bassa** is cosmetic, naming, and archiving.
 Findings route out: incomplete or stale Nation and City pages go to `nation-city-pages` in enrichment mode,
 split trips and thin itineraries to `trip-itinerary`. Everything this skill finds and is not allowed to fix
 goes to `travel-db-repair`: duplicates, broken or misdirected relations, false data, fake sources, generation
-drift and cosmetics. The audit finds and routes, the repair skill writes.
+drift, **pages over the density cap** and cosmetics. The audit finds and routes, the repair skill writes.
 
 ## What it may change without asking
 

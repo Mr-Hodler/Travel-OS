@@ -1,6 +1,6 @@
 # Travel OS
 
-![version](https://img.shields.io/badge/version-1.3-blue)
+![version](https://img.shields.io/badge/version-1.4-blue)
 
 Six skills that manage the Notion **Travels & City** database. The database already exists and is correct. Travel OS does not redesign it, it keeps it filled, current and usable.
 
@@ -41,6 +41,29 @@ Beside them, `knowledge/templates/` holds the canonical specification of each of
 ```
 
 Needs the Notion connector. `trip-itinerary` and `pre-departure-check` also need Spark or Gmail, and Google Calendar. `travel-scheduler` needs the trigger tools of the `claude-code-remote` MCP server, and nothing else. `SETUP.md` has the whole matrix, the Drive folder convention, what to do on first use and how to verify that every connector actually responds.
+
+## What's new in 1.4
+
+**The pages were measured and given a density budget.** Fourteen live pages were fetched and counted on
+2026-09-25. The median City page body was **84,569 characters**, and the three Chinese city pages held up
+as the length reference measured **83,804**, so there was no short reference left in the database: it had
+drifted as a whole. The reader's verdict was that half the text would have been more than enough, and the
+caps are that halving made checkable: **42,000 characters for a City body, 32,000 for a Nations body,
+4,500 for one numbered section, 3,500 for a history toggle, 300 for a table cell, and 3 consecutive lines
+of prose before it has to become a table or a list.** Measured on the `<content>` block as `notion-fetch`
+returns it, so two agents get the same number.
+
+Beside the caps, `knowledge/page-standard.md` gains `How to write a line`, which is how the numbers are
+reached: **a table beats a paragraph** whenever there are more than two comparable entries, one line one
+fact, bold on the search key and not on a clause, the link on the name, no connective or editorial
+sentences, no datum in two sections, a caution clause reduced to `da verificare`. And the rule that binds
+all of them: **compressing is not cutting**, every fact, address, hour, link and `da verificare` entry
+survives, only the words around them go.
+
+**The history toggle moved inside section 1** on both page types, `travel-db-audit` gained a `page over the
+density cap` defect class with the procedure to measure it, and `travel-db-repair` gained the compression
+pass that closes it. The City spec gained the `Top quartieri dove stare` table that answers `dove dormo` in
+one row, and `Centri finanziari e distretti business` plus `Come fare business qui` in section 10.
 
 ## What's new in 1.3
 

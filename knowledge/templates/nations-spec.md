@@ -18,16 +18,23 @@ where they are read.
 Section names, their emoji and their numbering are kept exactly as they read in
 Notion.
 
+**Density.** A Nations page body is capped at **32,000 characters**, one numbered section at
+**4,500**, the `Storia del paese` toggle at **3,500**, one table cell at **300**, and a block of prose
+at **3 consecutive lines** before it has to become a table or a list. The budget, how to measure it and
+the form rules that make it reachable are in `knowledge/page-standard.md`, sections `Density budget` and
+`How to write a line`. **A table beats a paragraph whenever there are more than two comparable entries.**
+
+
 ---
 
-<details>
-<summary>**Storia del paese**</summary>
-	What this toggle covers, in dense prose and not as a chronology of dates.
-	- **Archi storici principali:** the eras that formed the country, one or two lines each, from origin to today.
-	- **Cosa spiega il paese di oggi:** which of those arcs still decides how the place works now, its borders, its institutions, its wealth, its neighbours and its open wounds.
-	- **Perché il lettore ne ha bisogno:** what he would misread on the ground without it, in conversation, in a negotiation and standing in front of a monument.
-</details>
 ## 1. 🛂 Entry, Visas, and Rules {toggle="true"}
+	<details>
+	<summary>**Storia del paese**</summary>
+		What this toggle covers, in dense prose and not as a chronology of dates. **Nested inside section 1 as its first block**, not placed before it: the first thing the page shows must be operational. Cap 3,500 characters, see the density budget in `knowledge/page-standard.md`.
+		- **Archi storici principali:** the eras that formed the country, one or two lines each, from origin to today.
+		- **Cosa spiega il paese di oggi:** which of those arcs still decides how the place works now, its borders, its institutions, its wealth, its neighbours and its open wounds.
+		- **Perché il lettore ne ha bisogno:** what he would misread on the ground without it, in conversation, in a negotiation and standing in front of a monument.
+	</details>
 	- Guidance
 		- Official links to use: immigration portal, visa page, Swiss embassy, Italian embassy
 		- Always state maximum stay length and possible extensions with sources
@@ -354,7 +361,7 @@ Notion.
 		- Bitcoin ATM coverage & crypto‑friendly places:
 		- VPN legality & censorship status:
 		- Digital nomad readiness:
-	- **Fare business nel paese**
+	- **Fare business nel paese**, a dry list and never prose. One line per entry, the answer first and no run up to it. If an entry needs more than two lines it belongs in a table.
 		- **Orari di lavoro:** office hours, the lunch break and how long it really lasts, which day the working week starts and ends
 		- **Stile delle riunioni:** punctuality, hierarchy in the room, who speaks and who decides, how much small talk comes before business, slides or conversation
 		- **Mesi morti per le ferie:** the weeks when nothing is decided, national holidays and school breaks included
@@ -362,14 +369,12 @@ Notion.
 		- **Tempi decisionali:** how long from first meeting to signature, how many levels sign off, what usually stalls
 		- **Registro delle email:** formal or informal opening, titles, which language to write in, expected reply time and what silence means
 ## 7. 🕍 Culture & Identity {toggle="true"}
-	- Do / Don’t essentials
-		- Do:
-		- Don’t:
-	- **Do**, explicit and specific to this country, never generic guidebook politeness
+	- **Do**, explicit and specific to this country, never generic guidebook politeness. **List form, never a paragraph.**
 		- One line per item, with the reason it matters here
-	- **Don't**, explicit and specific to this country
+	- **Don't**, explicit and specific to this country. **List form, never a paragraph.**
 		- One line per item, with what actually happens if you do it
-	- **Cosa non dire:** the subjects that cause real offence here, one line each on why. Not awkwardness, offence.
+	- **Cosa non dire**, the subjects that cause real offence here. **List form, never a paragraph.** Not awkwardness, offence.
+		- One line per item, with why it lands badly
 	- Holidays with impact
 		<table fit-page-width="true" header-row="true">
 <tr>

@@ -24,6 +24,8 @@ Audit Travels & City, <data>: nessun problema. <N> pagine elencate, <M> aperte.
 | [Poland 🇵🇱](url) | Nation | governo non aggiornato, footer 2024-11 | Alta | verificare chi governa e aggiornare sezione politica |
 | [Belgrade](url) | City | relazione `Nation` vuota | Alta | corretto: impostata su Serbia 🇷🇸 |
 | [Vietnam 2025](url) | Travel | `Dates` chiuse da 210 giorni | Bassa | archiviare, decisione dell'utente |
+| [Dubai & Emirates](url) | City | corpo 106.835 caratteri su un tetto di 42.000, sezione 7 da 18.074, una cella da 1.470 | Media | comprimere con travel-db-repair, nessun dato va perso |
+| [Poland 🇵🇱](url) | Nation | toggle `Storia del paese` da 11.003 caratteri su un tetto di 3.500, e collocato sopra la sezione 1 invece che dentro | Media | comprimere e annidare dentro la sezione 1 con travel-db-repair |
 
 ## Correzioni applicate
 - Belgrade: impostata la relazione `Nation` su Serbia 🇷🇸, unica corrispondenza.
@@ -38,6 +40,8 @@ Audit Travels & City, <data>: nessun problema. <N> pagine elencate, <M> aperte.
   the next three months sits below an Alta on next week's destination.
 - `Problema` names the token, the field or the section. "Incompleta" is not a finding, `placeholder [Hotel 1]
   in sezione 6` is.
+- A density finding carries **the measured number against the cap** and names the longest section, so
+  `corpo 106.835 caratteri su un tetto di 42.000, sezione 7 da 18.074`. The word `lunga` is not a finding.
 - `Azione consigliata` is one imperative line and names who does it: `nation-city-pages` in enrichment mode,
   `trip-itinerary`, or the user.
 - A fix applied automatically appears in the table with `corretto:` and again under `Correzioni applicate`.
