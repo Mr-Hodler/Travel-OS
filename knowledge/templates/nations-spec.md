@@ -18,22 +18,98 @@ where they are read.
 Section names, their emoji and their numbering are kept exactly as they read in
 Notion.
 
-**Density.** A Nations page body is capped at **32,000 characters**, one numbered section at
-**4,500**, the `Storia del paese` toggle at **3,500**, one table cell at **300**, and a block of prose
-at **3 consecutive lines** before it has to become a table or a list. The budget, how to measure it and
-the form rules that make it reachable are in `knowledge/page-standard.md`, sections `Density budget` and
-`How to write a line`. **A table beats a paragraph whenever there are more than two comparable entries.**
+**Density.** What is measured is the **visible text**, not the characters of the markdown: table markup is
+not read, so it does not count. Every heavy section carries **two levels**, the operational essentials
+visible when the section opens and one toggle `Dettaglio: <what it holds>` with all the rest. Nothing is
+deleted, it is moved one level down. Caps on the visible text: **900** for what an open section shows,
+**1,200** for `⚡ Scheda rapida`, **1,200** for the `🔁 Da riverificare` toggle, **1,300** for the
+first level of `Storia del paese`, **300** for a table cell, **4 lines** for a callout, **3 consecutive
+lines** of prose. The `Dettaglio` toggles have no cap. **Declared exception: `Do`, `Don't` and the two food
+tables stay at the first level of section 7.** The budget, the three cutting levers and the form rules are
+in `knowledge/page-standard.md`, sections `Density budget`, `How to write a line` and `No lists in prose`.
+**A table beats a paragraph whenever there are more than two comparable entries, and an enumeration is
+never written as prose.**
 
+
+---
+
+## ⚡ Scheda rapida
+
+**First block of the page, outside every toggle, and it carries no toggle itself.** Max **1,200** visible
+characters. Two columns, and the rows come in this order:
+
+<table fit-page-width="true" header-row="true">
+<tr>
+<td>Voce</td>
+<td>Dato</td>
+</tr>
+<tr>
+<td>**Ingresso per svizzeri**</td>
+<td>visa or no visa, maximum stay, document required</td>
+</tr>
+<tr>
+<td>**Emergenze**</td>
+<td>the numbers, police, ambulance, fire</td>
+</tr>
+<tr>
+<td>**Ambasciata CH**</td>
+<td>city, phone, out of hours consular number</td>
+</tr>
+<tr>
+<td>**Ambasciata IT**</td>
+<td>city, phone, out of hours consular number</td>
+</tr>
+<tr>
+<td>**Valuta e tasso**</td>
+<td>currency, rate against CHF, the date of the rate</td>
+</tr>
+<tr>
+<td>**Presa elettrica**</td>
+<td>socket type, voltage, whether an adapter is needed from Switzerland</td>
+</tr>
+<tr>
+<td>**Acqua del rubinetto**</td>
+<td>drinkable or not</td>
+</tr>
+<tr>
+<td>**SIM**</td>
+<td>operator, price, eSIM or physical</td>
+</tr>
+<tr>
+<td>**Crypto**</td>
+<td>legal state and what is actually usable on the ground</td>
+</tr>
+<tr>
+<td>**Da non dire**</td>
+<td>the one subject that causes real offence</td>
+</tr>
+</table>
+
+Below the table, **one single line**: time difference from Lugano, language, drives on the right or the
+left, time format.
+
+## 🔁 Da riverificare prima di partire {toggle="true"}
+	**Second block of the page, and it is a toggle.** Max **1,200** visible characters. A dry list, no
+	introductory sentence, every entry carrying its `(sez. N)` pointer and the date it was last checked. A
+	check older than the trip is a defect.
+	- **Regole di ingresso, visti e documenti** (sez. 1)
+	- **Situazione sicurezza e avvisi di viaggio** (sez. 2)
+	- **Tassi di cambio e costi tipici** (sez. 4)
+	- **Chi governa oggi** (sez. 8)
 
 ---
 
 ## 1. 🛂 Entry, Visas, and Rules {toggle="true"}
 	<details>
 	<summary>**Storia del paese**</summary>
-		What this toggle covers, in dense prose and not as a chronology of dates. **Nested inside section 1 as its first block**, not placed before it: the first thing the page shows must be operational. Cap 3,500 characters, see the density budget in `knowledge/page-standard.md`.
-		- **Archi storici principali:** the eras that formed the country, one or two lines each, from origin to today.
+		**Two levels.** This first level is one line per period, **max 1,300 visible characters**, and it carries no dates, no names of rulers and no figures: those go into the nested toggle below. **Nested inside section 1 as its first block**, not placed before it: the first thing the page shows must be operational.
+		- **Archi storici principali:** the eras that formed the country, one line each, from origin to today.
 		- **Cosa spiega il paese di oggi:** which of those arcs still decides how the place works now, its borders, its institutions, its wealth, its neighbours and its open wounds.
 		- **Perché il lettore ne ha bisogno:** what he would misread on the ground without it, in conversation, in a negotiation and standing in front of a monument.
+		<details>
+		<summary>**Dettaglio: date, nomi e cifre**</summary>
+			The chronology itself: dates, the rulers and the treaties by name, the figures. No cap. Everything the first level had to leave out sits here, and nothing is deleted in order to keep the first level short.
+		</details>
 	</details>
 	- Guidance
 		- Official links to use: immigration portal, visa page, Swiss embassy, Italian embassy
@@ -337,7 +413,7 @@ the form rules that make it reachable are in `knowledge/page-standard.md`, secti
 		- Bus and coach networks:
 		- Road conditions:
 		- Border crossing info:
-## 6. 📡 Working — Bitcoin & Tech {toggle="true"}
+## 6. 📡 Working: Bitcoin & Tech {toggle="true"}
 	- Compliance and legal landscape
 		- Crypto: legal tender? payments? licensed exchanges?
 		- VPN: legal? common usage?
@@ -369,12 +445,43 @@ the form rules that make it reachable are in `knowledge/page-standard.md`, secti
 		- **Tempi decisionali:** how long from first meeting to signature, how many levels sign off, what usually stalls
 		- **Registro delle email:** formal or informal opening, titles, which language to write in, expected reply time and what silence means
 ## 7. 🕍 Culture & Identity {toggle="true"}
+	**Declared exception to the 900 character cap:** `Do`, `Don't` and the two food tables stay at the **first level** of this section. They are what the reader opens it for. Everything else in the section, the holidays table and the `Additional` block, goes into `Dettaglio: feste, religione, lingua, galateo`.
 	- **Do**, explicit and specific to this country, never generic guidebook politeness. **List form, never a paragraph.**
 		- One line per item, with the reason it matters here
 	- **Don't**, explicit and specific to this country. **List form, never a paragraph.**
 		- One line per item, with what actually happens if you do it
 	- **Cosa non dire**, the subjects that cause real offence here. **List form, never a paragraph.** Not awkwardness, offence.
 		- One line per item, with why it lands badly
+	- **Cibo da provare**, at the first level of this section. Dishes, desserts, drinks, and where it is eaten cheaply. Columns, in this order: `Piatto` · `Cosa è` · `Dove`, the venue with its link or the kind of place · `Costo`.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>Piatto</td>
+<td>Cosa è</td>
+<td>Dove</td>
+<td>Costo</td>
+</tr>
+<tr>
+<td>**\[Dish 1\]**</td>
+<td>\[what it is, one line\]</td>
+<td>\[venue with a link, or the kind of place\]</td>
+<td>\[local currency / CHF\]</td>
+</tr>
+		</table>
+	- **Cibo strano, quello che serve saper riconoscere nel menu**, a table of its own and never merged into the one above. Same columns.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>Piatto</td>
+<td>Cosa è</td>
+<td>Dove</td>
+<td>Costo</td>
+</tr>
+<tr>
+<td>**\[Dish 1\]**</td>
+<td>\[what it is, and what a foreigner is actually served\]</td>
+<td>\[venue with a link, or the kind of place\]</td>
+<td>\[local currency / CHF\]</td>
+</tr>
+		</table>
 	- Holidays with impact
 		<table fit-page-width="true" header-row="true">
 <tr>
@@ -408,14 +515,30 @@ the form rules that make it reachable are in `knowledge/page-standard.md`, secti
 	- Ministry of Health:
 	- Central bank / currency authority:
 ---
-## 🗓️ Ultimo aggiornamento
-- **Data:** the day this page was last brought current
-- **Chi:** the skill or the person who did it
-- **Cosa è cambiato:** one line, so the next reader knows what was touched
+**The tail of the page is one single line**, and nothing else:
 
-## 🔁 Da riverificare prima di partire
-The entries that expire. Each one carries the date it was last checked, and a check older than the trip is a defect.
-- **Regole di ingresso, visti e documenti:** section 1
-- **Situazione sicurezza e avvisi di viaggio:** section 2
-- **Chi governa oggi:** section 8
-- **Tassi di cambio e costi tipici:** section 4
+```
+Aggiornata il <data>. Fonti: <elenco>.
+```
+
+No `🗓️ Ultimo aggiornamento` block, no note on compression, no declaration of density. They were
+noise. The spec version goes on that same line whenever it is not the current one, as `spec nations-spec.md
+1.4`. `🔁 Da riverificare prima di partire` is not down here: it is the **second block of the page**,
+at the top, and it is a toggle.
+
+## Mandatory table columns
+
+Set in `knowledge/page-standard.md`, `No lists in prose`, and repeated here because this is the file a skill
+reads to know the shape of a page.
+
+| Kind of list | Columns, in this order |
+| --- | --- |
+| Things to see, attractions, experiences | `Luogo` with the link · `Cosa è e perché vale` · `Costo` · `Orari` · `Tempo che serve` · `Hidden gem` |
+| `Cibo da provare` and `Cibo strano` | `Piatto` · `Cosa è` · `Dove` · `Costo` |
+| Districts | `Quartiere` · `Per chi va bene` · `Costo` · `Cosa evitare` |
+| Coworking, gyms, services | `Nome` with the link · `Zona` · `Prezzo` · `Note` |
+| Events and conferences | `Evento` with the link · `Quando` · `Dove` · `Costo` |
+| Venues, bars, restaurants, work cafes | `Nome` with the link · `Zona` · `Per cosa` · `Costo` |
+
+The link goes on the name of the item, inside its cell. `💎` in the `Hidden gem` column only where it
+truly is one. A missing datum is `da verificare`.

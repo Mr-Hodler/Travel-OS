@@ -55,35 +55,52 @@ For every entry: what it is, what to expect, and where to actually get it with a
 
 ## Density budget
 
-Measured on 2026-09-25 across fourteen live pages of the database. The City median body was
-**84,569 characters**, and the three Chinese city pages held up as the length reference measured
-**83,804**: they are not shorter than the rest, the whole database drifted together. The reader's
-verdict was that half the text would have been more than enough. The caps below are that halving,
-made checkable.
+The cap on markdown characters was the wrong metric. Table markup is not read, so counting it measured the
+page against something no reader ever crosses. **What is measured is the visible text**: the text the eye
+has to cross to find a datum, markup excluded.
 
-**The rule the caps serve:** a datum is found in twenty seconds, a page is read in five minutes.
+And the lever is not a shorter page, it is **two levels in every heavy section**. First the operational
+essentials, visible the moment the section opens. Then one toggle `Dettaglio: <what it holds>` carrying
+everything else. **Nothing is deleted, it is moved one level down.**
 
-| Cap | Limit | Measured against |
-| --- | --- | --- |
-| City page body, total | **42,000 characters** | half the City median of 84,569. Chinese reference median 83,804, Dubai 106,835, Lugano 48,823 |
-| Nations page body, total | **32,000 characters** | Nations median 52,595, so above half of it. Switzerland 38,966 and Thailand 35,295 are the closest today, Poland 97,892 is the outlier |
-| One numbered section | **4,500 characters** | section medians today: 6,925 on a city page, 4,331 on a nation page. The worst single section measured 21,499 |
-| History toggle, `City History` or `Storia del paese` | **3,500 characters** | `City History` median 3,522, Switzerland 3,107, Thailand 3,175. Poland's `Storia` measured 11,003 |
-| One table cell | **300 characters** | the median cell is 25 characters. Between 1 and 12 cells per page exceed 300 today, the worst 1,470 |
-| One block of prose | **3 consecutive lines**, then it becomes a table or a list | measured runs of consecutive prose lines run from 3 to 8 |
+Caps, all counted on the visible text:
 
-**How to measure it before saving.** `notion-fetch` the page and count the characters of the
-`<content>` block, markup included. That is the number the caps are written in and the only count two
-agents will agree on. Per section, count from one `## N.` heading to the next. A page over its cap is
-not saved: it is compressed, then saved.
+| Cap | Limit |
+| --- | --- |
+| What an open section shows, before its `Dettaglio` toggle | **900 characters**, so 3 to 6 lines |
+| `⚡ Scheda rapida` | **1,200 characters** |
+| `🔁 Da riverificare prima di partire` toggle | **1,200 characters** |
+| First level of the history toggle | **1,300 characters**, one line per period. Dates, names and figures go into a nested `Dettaglio: date, nomi e cifre` |
+| One table cell | **300 characters** |
+| One callout | **4 lines** |
+| One run of prose | **3 consecutive lines**, then a table or a list |
+| A `Dettaglio` toggle | no cap. It holds everything the first level does not |
 
-**What the budget buys.** 42,000 characters over ten sections plus a preamble and two footer blocks is
-about 3,700 characters a section, roughly 530 words, under a minute at skim speed. The preamble plus
-the three toggles a reader actually opens comes to about 16,000 characters, and that is the five minute
-page.
+**The declared exception.** On a Nations page, `Do`, `Don't` and the two food tables stay at the **first
+level of section 7**. They are what the reader opens that section for, and a toggle in front of them costs
+a click at the moment they are needed.
 
-**The budget is a ceiling, not a target.** A city with less to say is written shorter. Lugano at 48,823
-characters is the shortest city page in the database and it is not the worst one.
+**The three levers that actually cut, in order of return.**
+
+1. **Merge table rows that were split for no reason.** Every pair of the shape `Voce` plus `Voce, la
+   sanzione`, or `Voce` plus `Voce, come si sta`, becomes **one row**. It is the most profitable cut: it
+   removes the markup and the repeated label at the same time.
+2. **Deduplicate across sections.** The second copy becomes a one line pointer, `sez. N`. It is done in the
+   less pertinent section, never in the one where the datum is actually used.
+3. **Turn descriptive prose into one fact per line.**
+
+Do not use the list to table lever on short lists: the markup costs more than it saves.
+
+**Measured on the pilot, five pages, visible characters before and after:** Poland **83,139 to 15,059**,
+Helsinki **80,208 to 10,628**, Warsaw to **10,713**, Kraków **44,822 to 17,465**, Finland **49,409 to
+16,089**. **Zero facts lost**, verified by counting distinct numbers, links, proper names and
+`da verificare` entries before and after.
+
+**How to measure it.** `notion-fetch` the page, strip the markup, and count what is left section by
+section with the `Dettaglio` toggles closed. `notion-fetch` on a page of this size exceeds the token limit
+and saves to a file: it is analysed with python, never read into context.
+
+**The budget is a ceiling, not a target.** A place with less to say is written shorter.
 
 ## How to write a line
 
@@ -108,11 +125,46 @@ The caps say how much. This section says how, and it is where the characters are
 - **Compressing is not cutting.** Facts, numbers, addresses, opening hours, links and `da verificare`
   entries all stay. If the character count fell because a fact left the page, that is not compression,
   it is data loss, and the page is worse than when it was too long.
+- **The form of a line is `**Etichetta.** dato, dato, dato.`** No opening sentence, no closing sentence,
+  no comment around it.
+- **Related facts are joined with ` · ` instead of opening a new line.** It is shorter and it reads better.
+- **These formulas are forbidden, with every variant of them:** `è importante notare`, `va detto`,
+  `vale la pena`, `da tenere presente`, `non è pignoleria`, `attenzione a`, `tieni presente`,
+  `in generale`, `sostanzialmente`, `di fatto`, `il modo più rapido per`, `la parte che conta`,
+  `il punto è che`, `tradotto`, `lettura utile`. They are deleted outright and the fact behind them stays.
+- **No evaluative adjectives, no metaphors, no repeated emphasis, and no explaining why a rule is a rule.**
+  The why is written only when it changes behaviour, and then in one line.
+- **Dates as `GG.MM.AAAA` inside a table**, written out in full only in prose.
+- **`da verificare` in backticks on every figure that expires.**
 
 **The history toggle is nested inside section 1, not placed before it.** On a City page `City History`
 sits inside `1. Quick links & Essential resources`. On a Nation page `Storia del paese` sits inside
 `1. Entry, Visas, and Rules`. A toggle floating above the first numbered section opens the page with a
 history lesson when what the reader wanted was a phone number.
+
+## No lists in prose: tables and bullets
+
+**Never an enumeration written as prose.** More than two items, each with more than one attribute, is a
+**table**. One attribute per item is a **bullet list**. A paragraph that threads three venues and their
+prices into one sentence is a defect even when it is short.
+
+The link goes **on the name of the item, inside the cell**, never on a line of its own.
+
+Mandatory columns, by kind of list:
+
+| Kind of list | Columns, in this order |
+| --- | --- |
+| Things to see, attractions, experiences | `Luogo` with the link · `Cosa è e perché vale` · `Costo` · `Orari` · `Tempo che serve` · `Hidden gem` |
+| `Cibo da provare` and `Cibo strano` | `Piatto` · `Cosa è` · `Dove`, the venue with its link or the kind of place · `Costo` |
+| Districts | `Quartiere` · `Per chi va bene` · `Costo` · `Cosa evitare` |
+| Coworking, gyms, services | `Nome` with the link · `Zona` · `Prezzo` · `Note` |
+| Events and conferences | `Evento` with the link · `Quando` · `Dove` · `Costo` |
+| Venues, bars, restaurants, work cafes | `Nome` with the link · `Zona` · `Per cosa` · `Costo` |
+
+In the `Hidden gem` column, `💎` goes only where it truly is one, so they are found at a glance. A
+missing datum is `da verificare`, and where a place has to be booked ahead it is said in the `Orari` column.
+
+**`Do` and `Don't` stay bullet lists.** One attribute per line is the whole point of them.
 
 ## Style
 
@@ -151,27 +203,24 @@ finding on paper and leaves the page exactly as unverifiable as it was.
 Where one cell in a table is a fake source, the whole table is checked cell by cell. Fake links arrive in
 batches, because whatever produced one produced the row beside it.
 
-## Generation marker
+## The footer is one line
 
-Every page carries at the end an `Ultimo aggiornamento` block, and that block names **the date and the
-version of the spec the page was written against**.
+Every page ends with **one single line**, and nothing else:
 
 ```
-## 🗓️ Ultimo aggiornamento
-- **Data:** 2026-09-24
-- **Chi:** nation-city-pages
-- **Cosa è cambiato:** one line, so the next reader knows what was touched
-- **Spec seguita:** city-spec.md, Travel OS 1.3
+Aggiornata il <data>. Fonti: <elenco>.
 ```
 
-The date alone is not enough. Templates evolve, and a page can be complete against the spec of a year ago
-and incomplete against the current one with nothing on it that looks wrong. Without the marker, the only way
-to find out which pages are behind is to open all of them and compare section by section, which is how a
-migration ends up costing more than the writing it is meant to fix.
+The `🗓️ Ultimo aggiornamento` block is gone, and so is every note on compression and every
+declaration of density. They were noise: four lines of metadata standing in front of the reader to carry a
+date and a name.
 
-With the marker, a future migration reads the footer, compares the spec version against the current one, and
-knows what is old without opening anything. `travel-db-audit` reads it the same way, and a page whose marker
-names no spec version is itself a finding.
+The spec version the page was written against still matters, and it goes on that same line whenever it is
+not the current one, as `spec city-spec.md 1.4`. Templates evolve, and a page can be complete against last
+year's spec and incomplete against the current one with nothing on it that looks wrong. Without it the only
+way to find out which pages are behind is to open all of them and compare section by section, which is how
+a migration ends up costing more than the writing it is meant to fix. `travel-db-audit` reads that line the
+same way.
 
 ## The verification pass is not optional
 
@@ -183,15 +232,24 @@ After writing, re-fetch the page and check:
 - no template instruction callout left in the page
 - every section the template has is present and numbered correctly
 - no em dashes in prose, no missing accents
-- the body is inside its cap: 42,000 characters on a City page, 32,000 on a Nations page, counted on the
-  `<content>` block as `notion-fetch` returns it
-- no numbered section over 4,500 characters, no history toggle over 3,500, no table cell over 300
-- no block of prose longer than 3 consecutive lines where a table or a list would carry it
+- `⚡ Scheda rapida` is the first block of the page, outside every toggle, within **1,200** visible
+  characters
+- `🔁 Da riverificare prima di partire` is the second block and it is a toggle, within **1,200**
+  visible characters
+- every heavy section carries its own `Dettaglio` toggle, and what the section shows before that toggle is
+  within **900** visible characters
+- the first level of the history toggle is within **1,300** visible characters, with the dates, names and
+  figures in the nested `Dettaglio: date, nomi e cifre`
+- no table cell over **300** characters, no callout over **4 lines**, no run of prose longer than
+  **3 consecutive lines** where a table or a list would carry it
+- on a Nations page, `Do`, `Don't` and the two food tables are at the first level of section 7
+- no enumeration written as prose where the mandatory columns of its kind apply
 - the history toggle is nested inside section 1, not floating above it
+- no `🗓️ Ultimo aggiornamento` block left, and no declaration of density anywhere
 - `Do`, `Don't` and `Cosa non dire` are lists, not paragraphs
 - no datum repeated in two sections
 - every link is the official site of the thing it names, or there is no link, per the link contract above
 - no generation residue anywhere: no `utm_source=`, no `([turn0searchNN])`, no search result URL in place of a site
-- the generation marker is present: `Ultimo aggiornamento` carries the date and the spec version followed
+- the footer is the single line `Aggiornata il <data>. Fonti: <elenco>.`
 
 A page that fails any of these is not finished.

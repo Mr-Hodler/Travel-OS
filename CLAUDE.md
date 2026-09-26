@@ -27,24 +27,35 @@ price near where he sleeps, and why food is two lists instead of one.
 
 ## Density, and the numbers are the rule
 
-The pages had become a broth of words: two hours to read one city and the datum not findable. Measured on
-2026-09-25 across fourteen live pages, the median City body was **84,569 characters** and the three Chinese
-city pages named as the length reference measured **83,804**, so the reference had drifted too and there is
-no short page left to copy. The caps below are the reader's own "half would have been enough", made
-checkable. Full derivation in `knowledge/page-standard.md`, `Density budget`.
+The cap on markdown characters was the wrong metric: table markup is not read. **What is measured is the
+visible text**, and the lever is **two levels in every heavy section**: the operational essentials visible
+when the section opens, one toggle `Dettaglio: <what it holds>` with everything else. **Nothing is deleted,
+it is moved one level down.** Full rule in `knowledge/page-standard.md`, `Density budget`.
 
-| Cap | Limit |
+| Cap, on the visible text | Limit |
 | --- | --- |
-| City page body, total | **42,000 characters** |
-| Nations page body, total | **32,000 characters** |
-| One numbered section | **4,500 characters** |
-| History toggle, `City History` or `Storia del paese` | **3,500 characters** |
-| One table cell | **300 characters** |
-| One block of prose | **3 consecutive lines**, then a table or a list |
+| What an open section shows, before its `Dettaglio` | **900** |
+| `⚡ Scheda rapida`, first block of the page | **1,200** |
+| `🔁 Da riverificare prima di partire`, second block and a toggle | **1,200** |
+| First level of the history toggle | **1,300** |
+| One table cell | **300** |
+| One callout | **4 lines** |
+| One run of prose | **3 consecutive lines**, then a table or a list |
+| A `Dettaglio` toggle | no cap |
 
-**Measured, not estimated:** count the characters of the `<content>` block as `notion-fetch` returns it,
-markup included. Per section, from one `## N.` heading to the next. A page over a cap is compressed and then
-saved, never saved and flagged.
+**Declared exception:** on a Nations page, `Do`, `Don't` and the two food tables stay at the first level of
+section 7.
+
+**Measured, not estimated:** strip the markup and count what is left, section by section, with the
+`Dettaglio` toggles closed. `notion-fetch` on a page this size exceeds the token limit and saves to a file,
+so it is analysed with python and never read into context. A page over a cap is compressed and then saved,
+never saved and flagged.
+
+**The three levers, in order of return:** merge table rows split for no reason, deduplicate across sections
+into a one line `sez. N` pointer, turn descriptive prose into one fact per line.
+
+**Measured on the pilot:** Poland 83,139 visible characters to 15,059, Helsinki 80,208 to 10,628, Warsaw to
+10,713, Kraków 44,822 to 17,465, Finland 49,409 to 16,089, **zero facts lost**.
 
 **Form, because caps alone give shorter pages that still cannot be read.** Full rules in
 `knowledge/page-standard.md`, `How to write a line`.
@@ -59,7 +70,14 @@ saved, never saved and flagged.
 - **No datum in two sections.** Written twice, it becomes two figures that disagree.
 - **A caution clause becomes `da verificare`**, or one note at the end of the section.
 - **`Do`, `Don't` and `Cosa non dire` are lists**, never paragraphs, on both page types.
-- **The history toggle is nested inside section 1** on both page types, never above it.
+- **The history toggle is nested inside section 1** on both page types, never above it, and it is itself two
+  levels: one line per period, then `Dettaglio: date, nomi e cifre`.
+- **Never an enumeration written as prose.** More than two items with more than one attribute each is a
+  table, one attribute each is a bullet list. Mandatory columns per kind of list in
+  `knowledge/page-standard.md`, `No lists in prose`.
+- **The tail of a page is one line**, `Aggiornata il <data>. Fonti: <elenco>.` No `Ultimo aggiornamento`
+  block, no declaration of density.
+- **The flag lives in the icon, never inside `Name`**, and a City page carries the flag of its own nation.
 - **Compressing is not cutting.** Every fact, figure, address, hour, link and `da verificare` entry
   survives, only the words around them go. A count that fell because content left the page is damage, not
   compression.

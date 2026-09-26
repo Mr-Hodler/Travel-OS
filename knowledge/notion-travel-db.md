@@ -24,7 +24,7 @@ property is absent leaves it empty forever.
 
 | Property | Type | Notes |
 | --- | --- | --- |
-| `Name` | title | English name plus flag emoji |
+| `Name` | title | English name only. The flag goes in the page icon, never inside `Name` |
 | `Continent` | select | South America, North America, Europe, Asia, Africa |
 | `Cities` | relation to City | auto-filled from the City side, see below |
 | `Attachments` | url | |
@@ -34,7 +34,7 @@ property is absent leaves it empty forever.
 
 | Property | Type | Notes |
 | --- | --- | --- |
-| `Name` | title | English name, single word where one exists |
+| `Name` | title | English name, single word where one exists. No flag inside `Name`: the icon carries the flag of its nation |
 | `Nation` | relation to Nations | set this one, it fills `Cities` on the nation |
 | `Maps` | url | a Google Maps place URL for the city. **This property exists** |
 | `Attachments` | url | |
@@ -94,11 +94,23 @@ Setting `Nation` on a City page auto-fills `Cities` on the Nation page. So **cre
 
 ## Naming conventions, as used
 
-- Nations: English name plus flag emoji. `Finland 🇫🇮`, `Poland 🇵🇱`, `Dominican Republic 🇩🇴`
+- Nations: English name, nothing else. `Finland`, `Poland`, `Dominican Republic`
 - Cities: English name, single word where one exists. `Helsinki`, `Warsaw`, `Krakow`, `Belgrade`. A second local name only when the page is genuinely known by both (`Beijing Pechino`)
-- Trips: destination plus purpose or year. `Helsinki + Warsaw 🇫🇮🇵🇱 BTCHEL 2026`, `Vietnam 2025`
-- Icons: flag emoji on nation and city pages, `✈️` on trip pages
+- Trips: destination plus purpose or year. `Vietnam 2025`
 - `Maps` on a city page: a Google Maps place URL for the city
+
+## Icons and titles: the flag lives in the icon
+
+**The flag goes in the icon only, never inside `Name`.** A flag inside the title is what produces the
+duplicate that normalises to the same string, `Poland` against `Poland 🇵🇱`, and it makes every
+query match on a character nobody types. It also puts the same information on the page twice, in the icon
+and in the title, and the two then drift.
+
+**Every City page carries as its icon the flag of its own nation.** Not a city crest, not a photo, not a
+pin: the flag of the country the `Nation` relation points at, so the database view reads as groups of
+countries at a glance. A City page whose icon is not its nation's flag is a defect.
+
+Trip pages keep `✈️` as their icon.
 
 ## One trip, one page
 

@@ -1,5 +1,105 @@
 # Changelog
 
+## 1.5
+
+**The character cap was measuring the wrong thing.**
+
+1.4 capped a page on the characters of its markdown, counted on the `<content>` block as `notion-fetch`
+returns it. The count was reproducible, which is why it was chosen, and it was still the wrong metric:
+**table markup is not read.** A page made of tables carries thousands of characters of `<td>` that no eye
+ever crosses, and a page of prose carries almost none, so the same number meant two different reading
+times. The cap was measuring the file, and the complaint had been about the reading.
+
+**What is measured now is the visible text.** Markup stripped, and what is left is what the eye has to cross
+to find a datum.
+
+**And the real lever was never length. It is two levels in every heavy section.** First the operational
+essentials, visible the moment the section opens. Then one toggle `Dettaglio: <what it holds>` with
+everything else. **Nothing is deleted, it is moved one level down**, which is what makes the standard
+compatible with the one rule that has not changed since 1.4: compressing is not cutting.
+
+**The caps, all on the visible text:**
+
+| Cap | Limit |
+| --- | --- |
+| What an open section shows, before its `Dettaglio` toggle | **900 characters**, so 3 to 6 lines |
+| `⚡ Scheda rapida` | **1,200 characters** |
+| `🔁 Da riverificare prima di partire` toggle | **1,200 characters** |
+| First level of the history toggle | **1,300 characters**, one line per period, the dates, names and figures in a nested `Dettaglio: date, nomi e cifre` |
+| One table cell | **300 characters** |
+| One callout | **4 lines** |
+| One run of prose | **3 consecutive lines**, then a table or a list |
+| A `Dettaglio` toggle | no cap. It holds everything the first level does not |
+
+**One exception, and it is declared rather than discovered.** On a Nations page, `Do`, `Don't` and the two
+food tables stay at the **first level of section 7**. They are what the reader opens that section for, and a
+toggle in front of them costs a click at the moment they are needed.
+
+**The pilot, five pages, visible characters before and after.** Poland **83,139 to 15,059**. Helsinki
+**80,208 to 10,628**. Warsaw to **10,713**. Kraków **44,822 to 17,465**. Finland **49,409 to 16,089**. So a
+factor of between two and a half and eight, and **zero facts lost**, which was not asserted but verified:
+distinct numbers, links, proper names and `da verificare` entries were counted with python before and after
+each page, and the inventory came out identical. A count that falls because a fact left the page is damage,
+not compression, and it is now checked rather than promised.
+
+**The three levers that actually produced those numbers, in order of return.** First, **merge the table rows
+that were split for no reason**: every pair of the shape `Voce` plus `Voce, la sanzione`, or `Voce` plus
+`Voce, come si sta`, becomes one row. It is the most profitable cut because it removes the markup and the
+repeated label at the same time. Second, **deduplicate across sections**, with the second copy reduced to a
+one line `sez. N` pointer, written in the less pertinent section and never in the one where the datum is
+used. Third, **turn descriptive prose into one fact per line**. The list to table lever is not applied to
+short lists: there the markup costs more than it saves.
+
+**The page now opens on what the reader came for.** `⚡ Scheda rapida` is the first block, outside every
+toggle and carrying no toggle of its own, with its rows in a fixed order. `🔁 Da riverificare prima di
+partire` is the second block and it is a toggle, a dry list with a `(sez. N)` pointer on every entry. The
+`🗓️ Ultimo aggiornamento` block is gone, and so is every note on compression and every declaration
+of density: four lines of metadata standing in front of the reader to carry a date and a name. The tail is
+one line, `Aggiornata il <data>. Fonti: <elenco>.`, and the spec version rides on it whenever it is not the
+current one.
+
+**No enumeration is written as prose any more.** More than two items, each with more than one attribute, is
+a table. One attribute per item is a bullet list. A paragraph that threads three venues and their prices
+into one sentence is a defect even when it is short, and every kind of list now has mandatory columns:
+attractions carry `Luogo` with the link, `Cosa è e perché vale`, `Costo`, `Orari`, `Tempo che serve` and
+`Hidden gem`, with `💎` only where it truly is one; food carries `Piatto`, `Cosa è`, `Dove`, `Costo`;
+districts, coworking and gyms, events, and venues each have their own. The link goes on the name of the
+item, inside its cell. `Do` and `Don't` stay bullet lists, because one attribute per line is their whole
+point.
+
+**New required entries.** On a Nations page, `Cibo da provare` and `Cibo strano, quello che serve saper
+riconoscere nel menu`, two separate tables in section 7. On a City page, `Dove stare, quartiere per
+quartiere`, `Centri finanziari e business district`, `Come fare business in città`, `Cosa fare e cosa non
+fare`, and `Cibo strano` beside `Cibo da provare`. The title of section 6 on a Nations page is
+`Working: Bitcoin & Tech`, with the colon.
+
+**The flag lives in the page icon and never inside `Name`.** A flag in the title is what produces the
+duplicate that normalises to the same string, `Poland` against `Poland 🇵🇱`, and it makes every
+query match on a character nobody types. Every City page carries as its icon the flag of the nation its
+`Nation` relation points at, so the database view reads as groups of countries at a glance.
+
+**`travel-db-audit` gained nine defect classes** for all of the above: a section open beyond 900 visible
+characters, `Scheda rapida` missing or over 1,200, a heavy section with no `Dettaglio` toggle, a residual
+`Ultimo aggiornamento` block, a residual declaration of density, an enumeration in prose where a table is
+required, a section that has lost its toggle, a flag inside `Name`, and a City with no flag icon.
+
+**`travel-db-repair` gained the nine Notion traps the pilot paid for**, every one verified on the page and
+not one of them reporting an error when it happens. Editing the text of a section heading makes Notion
+rebuild the block, which loses `{toggle="true"}` and the indentation of its children. `update_content` in
+batch is atomic and silent: one match not found means nothing is applied and the call does not say so, so it
+is verified by refetch. Many micro operations on the same section make the toggle fall back, so a section is
+treated with one single contiguous operation. A ` + ` between two bold runs renders as a bullet, and is
+written `**+**`. A `` `da verificare` `` inside a bold run renders badly and goes outside the bold.
+`replace_content` over 40,000 characters has to be split, with `insert_content` and `position: end` one
+section at a time. Omitting the closing `</details>` swallows the tail of the page. `notion-fetch` on these
+pages exceeds the token limit and saves to a file, so it is analysed with python and never read into
+context. And the schema is never touched while content is being repaired: it is diffed at the start and at
+the end of the pass, because a property that disappears takes its whole column with it and no page level
+check catches it.
+
+**What did not change.** Compressing is not cutting. The link contract. Nothing is deleted, in the pages or
+in the database. The three `*-template.md` snapshots are still history and are still not edited.
+
 ## 1.4
 
 **The pages were measured, and the measurement did not say what anybody expected.**

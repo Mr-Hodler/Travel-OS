@@ -19,12 +19,84 @@ page and stays.
 Section names, their emoji and their numbering are kept exactly as they read in
 Notion.
 
-**Density.** A City page body is capped at **42,000 characters**, one numbered section at **4,500**,
-the `City History` toggle at **3,500**, one table cell at **300**, and a block of prose at
-**3 consecutive lines** before it has to become a table or a list. The budget, how to measure it and the
-form rules that make it reachable are in `knowledge/page-standard.md`, sections `Density budget` and
-`How to write a line`. **A table beats a paragraph whenever there are more than two comparable entries.**
+**Density.** What is measured is the **visible text**, not the characters of the markdown: table markup is
+not read, so it does not count. Every heavy section carries **two levels**, the operational essentials
+visible when the section opens and one toggle `Dettaglio: <what it holds>` with all the rest. Nothing is
+deleted, it is moved one level down. Caps on the visible text: **900** for what an open section shows,
+**1,200** for `⚡ Scheda rapida`, **1,200** for the `🔁 Da riverificare` toggle, **1,300** for the
+first level of `City History`, **300** for a table cell, **4 lines** for a callout, **3 consecutive lines**
+of prose. The `Dettaglio` toggles have no cap. The budget, the three cutting levers and the form rules are
+in `knowledge/page-standard.md`, sections `Density budget`, `How to write a line` and `No lists in prose`.
+**A table beats a paragraph whenever there are more than two comparable entries, and an enumeration is
+never written as prose.**
 
+
+---
+
+## ⚡ Scheda rapida
+
+**First block of the page, outside every toggle, and it carries no toggle itself.** Max **1,200** visible
+characters. Two columns, and the rows come in this order:
+
+<table fit-page-width="true" header-row="true">
+<tr>
+<td>Voce</td>
+<td>Dato</td>
+</tr>
+<tr>
+<td>**Aeroporto verso centro**</td>
+<td>the mode, the minutes, the price</td>
+</tr>
+<tr>
+<td>**Biglietto urbano**</td>
+<td>single fare, day pass, where it is bought</td>
+</tr>
+<tr>
+<td>**Emergenze**</td>
+<td>the numbers that work in this city</td>
+</tr>
+<tr>
+<td>**Ospedale**</td>
+<td>name, district, whether it takes foreigners directly</td>
+</tr>
+<tr>
+<td>**Farmacia 24h**</td>
+<td>name and address of one that is really open at night</td>
+</tr>
+<tr>
+<td>**Palestra day pass**</td>
+<td>name, district, price of a single entry</td>
+</tr>
+<tr>
+<td>**SIM o eSIM**</td>
+<td>operator, price, where it is activated</td>
+</tr>
+<tr>
+<td>**Pagamenti**</td>
+<td>cards or cash, and whether Bitcoin is spendable anywhere here</td>
+</tr>
+<tr>
+<td>**Dove stare**</td>
+<td>one district, and the reason it is that one</td>
+</tr>
+<tr>
+<td>**Da non fare**</td>
+<td>the one thing that gets a foreigner in trouble here</td>
+</tr>
+</table>
+
+Below the table, **one single line**: currency and rate against CHF, time difference, language.
+
+## 🔁 Da riverificare prima di partire {toggle="true"}
+	**Second block of the page, and it is a toggle.** Max **1,200** visible characters. A dry list, no
+	introductory sentence, every entry carrying its `(sez. N)` pointer and the date it was last checked. A
+	check older than the trip is a defect.
+	- **Prezzi e orari** (sez. 7, 8, 9)
+	- **Giorni di chiusura e festivi nella finestra di viaggio** (sez. 2, 7)
+	- **Ospedali, farmacia 24h e numeri** (sez. 3)
+	- **Ingressi singoli in palestra** (sez. 7)
+	- **Rischi stagionali contro le date reali** (sez. 3)
+	- **Locali e ristoranti che esistono ancora** (sez. 7, 8)
 
 ---
 
@@ -41,7 +113,12 @@ form rules that make it reachable are in `knowledge/page-standard.md`, sections 
 	<details>
 	<summary>**City History **</summary>
 		Explain here the History of the city, the past, the history, why is known (wars, tech, politics, culture, and so on) , the local context and the highlight to know about the place.
-		**Nested inside section 1 and it stays there**, never lifted above the first numbered section: the page opens with links and numbers, not with a history lesson. Cap 3,500 characters.
+		**Two levels.** This first level is one line per period, **max 1,300 visible characters**, and it carries no dates, no names and no figures: those go into the nested toggle below.
+		**Nested inside section 1 and it stays there**, never lifted above the first numbered section: the page opens with links and numbers, not with a history lesson.
+		<details>
+		<summary>**Dettaglio: date, nomi e cifre**</summary>
+			The chronology itself: dates, the people and the events by name, the figures. No cap. Everything the first level had to leave out sits here, and nothing is deleted in order to keep the first level short.
+		</details>
 	</details>
 ## 2. 🏙️ Local context (city‑only) {toggle="true"}
 	- **Country:** \[\[Link to Nation page\]\] • **Time zone:** GMT±X (DST: \[Yes/No\])
@@ -78,7 +155,7 @@ form rules that make it reachable are in `knowledge/page-standard.md`, sections 
 <td>\[parks, families\]</td>
 </tr>
 		</table>
-	- **Top quartieri dove stare**, the table that answers `dove dormo` in one row. It replaces the
+	- **Dove stare, quartiere per quartiere**, the `Top quartieri dove stare` table, which answers `dove dormo` in one row. Mandatory columns: `Quartiere` · `Per chi va bene` · `Costo` · `Cosa evitare`. It replaces the
 	  `Where to stay` snapshot above as the one a reader actually uses, and every column is filled.
 	  Three to five rows, no more: a list of twelve districts answers nothing.
 		<table fit-page-width="true" header-row="true">
@@ -221,6 +298,7 @@ form rules that make it reachable are in `knowledge/page-standard.md`, sections 
 	- **Internet & power:** typical Wi‑Fi quality/security; note unusual power quirks
 	- **Work‑friendly spots:** coworkings and cafés with reliable Wi‑Fi
 ## 6. 🧭 Culture & customs (city specifics) {toggle="true"}
+	**`Cosa fare e cosa non fare` is mandatory here**, and it is the `Do` and `Don't` pair below: two dry bullet lists, one attribute per line, at the **first level** of the section. Everything else in the section goes into `Dettaglio: frasi, feste, galateo d'affari`.
 	- **Do**, explicit and specific to this city, never generic guidebook politeness. **List form, never a paragraph.**
 		- One line per item, with the reason it matters here
 	- **Don't**, explicit and specific to this city. **List form, never a paragraph.**
@@ -480,7 +558,7 @@ form rules that make it reachable are in `knowledge/page-standard.md`, sections 
 	- **Where to have breakfast:** best spots for morning meals
 	- **Where to make groceries:** supermarkets and local markets
 	- **Coffee & work:** 2 or 3 cafés with reliable Wi‑Fi
-	- **Da provare, buoni:** the dishes worth eating, each with a venue that actually serves it
+	- **Cibo da provare**, the `Da provare, buoni` table: the dishes worth eating, desserts and drinks included, each with a venue that actually serves it and where it is eaten cheaply. Mandatory columns: `Piatto` · `Cosa è` · `Dove` · `Costo`.
 		<table>
 <tr>
 <td>**Piatto**</td>
@@ -525,7 +603,7 @@ form rules that make it reachable are in `knowledge/page-standard.md`, sections 
 <td>\[local currency / CHF\]</td>
 </tr>
 		</table>
-	- **Da provare, strani o divisivi:** the ones that test a foreigner, listed honestly and not as a dare
+	- **Cibo strano**, the `Da provare, strani o divisivi` table, a table of its own and never merged into the one above: what a foreigner needs to be able to recognise on a menu, listed honestly and not as a dare. Same mandatory columns.
 		<table>
 <tr>
 <td>**Piatto**</td>
@@ -573,12 +651,12 @@ form rules that make it reachable are in `knowledge/page-standard.md`, sections 
 	- **Local companies:**  Local Big and relevant company, to be aware, visit or to make business with.
 	- **Consolati e camere di commercio:** Swiss and Italian consular presence in this city with address, phone, email and the out of hours consular number, plus the Swiss chamber and the local chambers of commerce with the person to contact
 	- **Eventi tech ricorrenti:** the conferences, meetups and hackathons that come back every year, the month each one falls in, and whether it is worth planning a trip around
-	- **Centri finanziari e distretti business:** where they physically are, by district name and by the
+	- **Centri finanziari e business district**, mandatory: where they physically are, by district name and by the
 	  landmark or street a taxi understands, with the walking or transit time from the centre. Which sector
 	  sits in which one, so banks here, tech there, the old exchange floor somewhere else. One line per
 	  district, a table from four districts up. The answer to `where do I go for a meeting`, not an essay
 	  on the local economy.
-	- **Come fare business qui**, a dry list and never prose. One line per entry, the answer first.
+	- **Come fare business in città**, mandatory, a dry list and never prose. One line per entry, the answer first.
 		- **Come si ottiene un primo incontro:** the channel that actually works here, introduction, cold
 		  email, LinkedIn, an event, a chamber of commerce
 		- **Dove si tengono gli incontri:** office, hotel lobby, restaurant, coworking, and which one signals what
@@ -588,16 +666,43 @@ form rules that make it reachable are in `knowledge/page-standard.md`, sections 
 		- **Lingua della riunione e delle email:** which one, and whether an interpreter is expected
 		- **Cosa fa chiudere un affare qui e cosa lo uccide:** the local specific, not general advice
 ---
-## 🗓️ Ultimo aggiornamento
-- **Data:** the day this page was last brought current
-- **Chi:** the skill or the person who did it
-- **Cosa è cambiato:** one line, so the next reader knows what was touched
+**The tail of the page is one single line**, and nothing else:
 
-## 🔁 Da riverificare prima di partire
-The entries that expire. Each one carries the date it was last checked, and a check older than the trip is a defect.
-- **Prezzi e orari:** sections 7, 8 and 9, opening hours and entry prices move constantly
-- **Giorni di chiusura e festivi nella finestra di viaggio:** sections 2 and 7
-- **Ospedali, farmacia 24h e numeri:** section 3
-- **Ingressi singoli in palestra:** section 7
-- **Rischi stagionali contro le date reali:** section 3
-- **Locali e ristoranti che esistono ancora:** sections 7 and 8
+```
+Aggiornata il <data>. Fonti: <elenco>.
+```
+
+No `🗓️ Ultimo aggiornamento` block, no note on compression, no declaration of density. They were
+noise. The spec version goes on that same line whenever it is not the current one, as `spec city-spec.md
+1.4`. `🔁 Da riverificare prima di partire` is not down here: it is the **second block of the page**,
+at the top, and it is a toggle.
+
+## Mandatory entries
+
+New requirements, not options. A page missing one of them is incomplete.
+
+| Entry | Where it sits |
+| --- | --- |
+| `Dove stare, quartiere per quartiere` | section 2, the `Top quartieri dove stare` table, or section 10 where it reads better |
+| `Centri finanziari e business district` | section 10, with the real names of the zones and who sits in each |
+| `Come fare business in città` | section 10: coworking with prices, where meetings are held, the real office hours |
+| `Cosa fare e cosa non fare` | section 6, the `Do` and `Don't` pair, two dry lists |
+| `Cibo strano` | section 8, its own table beside `Cibo da provare`, never merged into it |
+
+## Mandatory table columns
+
+Set in `knowledge/page-standard.md`, `No lists in prose`, and repeated here because this is the file a skill
+reads to know the shape of a page.
+
+| Kind of list | Columns, in this order |
+| --- | --- |
+| Things to see, attractions, experiences | `Luogo` with the link · `Cosa è e perché vale` · `Costo` · `Orari` · `Tempo che serve` · `Hidden gem` |
+| `Cibo da provare` and `Cibo strano` | `Piatto` · `Cosa è` · `Dove` · `Costo` |
+| Districts | `Quartiere` · `Per chi va bene` · `Costo` · `Cosa evitare` |
+| Coworking, gyms, services | `Nome` with the link · `Zona` · `Prezzo` · `Note` |
+| Events and conferences | `Evento` with the link · `Quando` · `Dove` · `Costo` |
+| Venues, bars, restaurants, work cafes | `Nome` with the link · `Zona` · `Per cosa` · `Costo` |
+
+The link goes on the name of the item, inside its cell. `💎` in the `Hidden gem` column only where it
+truly is one. A missing datum is `da verificare`, and where a place has to be booked ahead it is said in the
+`Orari` column.

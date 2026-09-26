@@ -156,14 +156,24 @@ the three Chinese city pages held up as the length reference measured 83,804, so
 
 **The caps, and they are in `knowledge/page-standard.md` under `Density budget`:**
 
-| Cap | Limit |
+Since 1.5 the metric is the **visible text**, not the characters of the markdown, and the lever is **two
+levels per section**: the operational essentials visible when the section opens, one toggle
+`Dettaglio: <what it holds>` with everything else. Nothing is deleted, it is moved one level down.
+
+| Cap, on the visible text | Limit |
 | --- | --- |
-| City page body, total | **42,000 characters** |
-| Nations page body, total | **32,000 characters** |
-| One numbered section | **4,500 characters** |
-| History toggle, `City History` or `Storia del paese` | **3,500 characters** |
+| What an open section shows, before its `Dettaglio` | **900 characters** |
+| `⚡ Scheda rapida` | **1,200 characters** |
+| `🔁 Da riverificare` toggle | **1,200 characters** |
+| First level of the history toggle | **1,300 characters** |
 | One table cell | **300 characters** |
-| One block of prose | **3 consecutive lines**, then a table or a list |
+| One callout | **4 lines** |
+| One run of prose | **3 consecutive lines**, then a table or a list |
+| A `Dettaglio` toggle | no cap |
+
+On a Nations page, `Do`, `Don't` and the two food tables stay at the first level of section 7. The three
+cutting levers, in order of return: merge table rows split for no reason, deduplicate across sections into a
+`sez. N` pointer, turn descriptive prose into one fact per line.
 
 **How a page is compressed, in this order.** Measure first: `notion-fetch` and count the `<content>`
 block, then each section from one `## N.` heading to the next, so the work starts on the section that is
@@ -212,6 +222,29 @@ These cost more to learn than the classes above. None of them is a preference.
 - **What comes out of a table moves, it is not deleted.** A Top 10 cut to Top 5 sends the other five into a
   line of text underneath. The reason the row was in the table is that somebody wanted the information; the
   reason it left the table is layout, and layout is not a reason to lose content.
+
+## Notion traps, every one of them verified on the page
+
+These are not preferences and none of them reports an error when it happens.
+
+- **Never modify the text of a section heading.** Notion rebuilds the block, and the rebuilt block loses
+  `{toggle="true"}` and the indentation of its children. If a heading genuinely has to change, verify
+  afterwards and restore both.
+- **`update_content` in batch is atomic and silent.** One match that is not found means **nothing** is
+  applied, and the call does not say so. Always verify by refetching.
+- **Many micro operations on the same section make the toggle fall back.** A section is treated with **one
+  single contiguous operation**, never with a sequence of small edits.
+- **` + ` between two bold runs renders as a bullet.** Neither `\+` nor the HTML entity helps. Write `**+**`.
+- **`` `da verificare` `` inside a bold run renders badly.** Write it outside the bold.
+- **`replace_content` over 40,000 characters has to be split**: `replace_content` with the first block, then
+  `insert_content` with `position: end`, one section at a time.
+- **Omitting the closing `</details>` swallows the tail of the page.** Every toggle opened is closed,
+  counted, before the write.
+- **`notion-fetch` on these pages exceeds the token limit and saves to a file.** It is analysed with python
+  via Bash, never read into context.
+- **Never touch the database schema while repairing content**, and **diff the schema at the start and at the
+  end of the pass**. A property that disappears takes its whole column with it and no page level check
+  catches it, because the pages still look right.
 
 ## Order of operations
 

@@ -1,6 +1,6 @@
 # Travel OS
 
-![version](https://img.shields.io/badge/version-1.4-blue)
+![version](https://img.shields.io/badge/version-1.5-blue)
 
 Six skills that manage the Notion **Travels & City** database. The database already exists and is correct. Travel OS does not redesign it, it keeps it filled, current and usable.
 
@@ -41,6 +41,38 @@ Beside them, `knowledge/templates/` holds the canonical specification of each of
 ```
 
 Needs the Notion connector. `trip-itinerary` and `pre-departure-check` also need Spark or Gmail, and Google Calendar. `travel-scheduler` needs the trigger tools of the `claude-code-remote` MCP server, and nothing else. `SETUP.md` has the whole matrix, the Drive folder convention, what to do on first use and how to verify that every connector actually responds.
+
+## What's new in 1.5
+
+**The character cap was the wrong metric.** A page was measured on the characters of its markdown, and
+table markup is not read: the count measured the page against something no reader ever crosses. What is
+measured now is the **visible text**.
+
+**And the lever turned out not to be a shorter page. It is two levels in every heavy section:** the
+operational essentials visible the moment the section opens, then one toggle `Dettaglio: <what it holds>`
+carrying all the rest. **Nothing is deleted, it is moved one level down.** The caps, all on the visible
+text: **900 characters for what an open section shows, 1,200 for `⚡ Scheda rapida`, 1,200 for the
+`🔁 Da riverificare` toggle, 1,300 for the first level of the history toggle, 300 for a table cell,
+4 lines for a callout, 3 consecutive lines of prose.** The `Dettaglio` toggles have no cap. One declared
+exception: on a Nations page `Do`, `Don't` and the two food tables stay at the first level of section 7.
+
+**Measured on the pilot, five pages, visible characters before and after:** Poland **83,139 to 15,059**,
+Helsinki **80,208 to 10,628**, Warsaw to **10,713**, Kraków **44,822 to 17,465**, Finland **49,409 to
+16,089**, with **zero facts lost**, verified by counting distinct numbers, links, proper names and
+`da verificare` entries before and after.
+
+**The page now opens on `⚡ Scheda rapida`**, the first block, outside every toggle, with
+`🔁 Da riverificare prima di partire` second and as a toggle. The `🗓️ Ultimo aggiornamento`
+block and every declaration of density are gone, replaced by one line: `Aggiornata il <data>. Fonti:
+<elenco>.` **No enumeration is written as prose** any more, and every kind of list has mandatory columns.
+New required entries: `Cibo da provare` and `Cibo strano` on a Nations page, and `Dove stare quartiere per
+quartiere`, `Centri finanziari e business district`, `Come fare business in città`, `Cosa fare e cosa non
+fare` and `Cibo strano` on a City page. **The flag lives in the page icon and never inside `Name`**, and a
+City page carries the flag of its own nation.
+
+`travel-db-audit` gained nine defect classes for all of this, and `travel-db-repair` gained the nine Notion
+traps the pilot paid for, from a heading whose edited text makes Notion drop `{toggle="true"}` and the
+children's indentation, to `update_content` in batch being atomic and silent.
 
 ## What's new in 1.4
 

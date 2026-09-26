@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Travel OS marketplace. Manages the existing Notion Travels & City database: nation and city reference pages filled to the template, trip itineraries assembled from email and calendar, pre-departure checks, the scheduled tasks behind them, database audits and the repairs they route. 6 skills: nation-city-pages, pre-departure-check, travel-db-audit, travel-db-repair, travel-scheduler, trip-itinerary. Proprietary and confidential, internal use only.",
-    "version": "1.4"
+    "version": "1.5"
   },
   "plugins": [
     {
       "name": "travel-os",
       "source": "./",
       "description": "Travel operating system on top of the Notion Travels & City database: nation and city reference pages filled to the template, trip itineraries assembled from email and calendar, a pre-departure check, the scheduled tasks that keep those two running on time, a database audit that finds the defects and a repair skill that closes them. 6 skills: nation-city-pages, pre-departure-check, travel-db-audit, travel-db-repair, travel-scheduler, trip-itinerary.",
-      "version": "1.4",
+      "version": "1.5",
       "author": {
         "name": "Aron Clementi",
         "organization": "Orizon21 Group"
