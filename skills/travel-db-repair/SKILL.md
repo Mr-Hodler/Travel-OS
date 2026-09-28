@@ -165,7 +165,7 @@ levels per section**: the operational essentials visible when the section opens,
 | What an open section shows, before its `Dettaglio` | **900 characters** |
 | `⚡ Scheda rapida` | **1,200 characters** |
 | `🔁 Da riverificare` toggle | **1,200 characters** |
-| First level of the history toggle | **1,300 characters** |
+| First level of the history toggle | **2,500 characters** |
 | One table cell | **300 characters** |
 | One callout | **4 lines** |
 | One run of prose | **3 consecutive lines**, then a table or a list |
@@ -195,6 +195,44 @@ source is invisible: the page looks tidy and no longer holds what the reader wen
 **Structural fix that travels with the compression pass.** The history toggle is **nested inside section
 1** on both page types. A `Storia del paese` toggle sitting above the first numbered section is a
 generation defect from before 1.4: move it inside section 1 as its first block, do not rewrite it.
+
+## Trip data on a permanent page, the eighth class
+
+A City or Nations page is permanent. Dates, flight numbers, arrival and departure times, the address of the
+accommodation, booking references and a line like `lavoro da remoto e palestra ogni giorno` belong to the
+Travel page of that trip. **The test is mechanical: a line that becomes false next month because the trip is
+over is on the wrong page.** It happened: an agent wrote the dates, the flights and the accommodation of the
+Warsaw trip into the Warsaw City page, where every line was right for one week and wrong afterwards.
+
+**The datum is not wrong, it is in the wrong place, so the repair is a move and never a deletion.** Deleting
+it destroys a fact that was researched once and is nowhere else, and it is the same rule as
+`what comes out of a table moves, it is not deleted` below.
+
+**How a datum is moved, and the order is the whole procedure.**
+
+1. **Find the destination first.** The Travel page for those dates: the one whose `City` relation points at
+   this city and whose `Dates` contain the dates on the line. Read the relation off the content, never off a
+   rough date match, per the operating rules below.
+2. **No Travel page, no move.** `trip-itinerary` is what creates one, and this skill does not. Until it
+   exists the lines stay where they are, collected into one `<details>` toggle on the City page titled
+   `Da spostare sulla pagina Travel`, and the finding is reported open. **Nothing is removed before its
+   destination exists**, because a move done in the wrong order is a deletion with extra steps.
+3. **Write it to the Travel page, in the block that owns it.** Flights and times to the flight block, the
+   accommodation with its address to the accommodation block, booking references to the field
+   `knowledge/templates/travel-spec.md` gives them, the day by day lines into the day table. `insert_content`
+   or a targeted `update_content`, never `replace_content` on a page that has content.
+4. **Re-fetch the Travel page and confirm the lines are there**, verbatim, before touching the City page. A
+   batched `update_content` is atomic and silent: it applies nothing and says nothing.
+5. **Only then remove them from the City page**, in one contiguous operation per section rather than many
+   micro edits, which drop the toggle.
+6. **Keep the permanent version of the same fact on the City page.** The hotel address goes and the line on
+   which district to sleep in stays. The gym of that trip goes and the day pass gyms stay. A flight number
+   goes and `Aeroporto verso centro` stays. What is removed is the instance, not the knowledge.
+7. **Re-fetch both pages.** The count of distinct numbers, links and proper names across the pair does not
+   fall: it is the same inventory, on two pages instead of one.
+
+**Report it as a move, naming both pages**, so the next audit does not read the City page as having lost
+data.
 
 ## Operating rules, learned the expensive way
 

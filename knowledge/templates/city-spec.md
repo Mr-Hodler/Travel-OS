@@ -19,11 +19,17 @@ page and stays.
 Section names, their emoji and their numbering are kept exactly as they read in
 Notion.
 
+**No trip data on this page.** It is permanent and independent of every trip. Dates, flights, arrival and
+departure times, the address of the accommodation and booking references live on the Travel page of that
+trip, never here. The test: a line that becomes false next month because the trip is over is in the wrong
+place. So `Palestre con day pass` belongs here and `la mia palestra di questo viaggio` does not. Rule in
+`knowledge/page-standard.md`, `City and Nations pages carry no trip data`.
+
 **Density.** What is measured is the **visible text**, not the characters of the markdown: table markup is
 not read, so it does not count. Every heavy section carries **two levels**, the operational essentials
 visible when the section opens and one toggle `Dettaglio: <what it holds>` with all the rest. Nothing is
 deleted, it is moved one level down. Caps on the visible text: **900** for what an open section shows,
-**1,200** for `⚡ Scheda rapida`, **1,200** for the `🔁 Da riverificare` toggle, **1,300** for the
+**1,200** for `⚡ Scheda rapida`, **1,200** for the `🔁 Da riverificare` toggle, **2,500** for the
 first level of `City History`, **300** for a table cell, **4 lines** for a callout, **3 consecutive lines**
 of prose. The `Dettaglio` toggles have no cap. The budget, the three cutting levers and the form rules are
 in `knowledge/page-standard.md`, sections `Density budget`, `How to write a line` and `No lists in prose`.
@@ -87,6 +93,10 @@ characters. Two columns, and the rows come in this order:
 
 Below the table, **one single line**: currency and rate against CHF, time difference, language.
 
+Below that line, **`Cambio rapido`**, mandatory: **10, 50, 100 and 500 CHF** in local currency at the rate
+just stated, plus the reverse for one round local amount. It is there to price something at a glance in
+front of a shelf. Where the local currency is the CHF the line is dropped.
+
 ## 🔁 Da riverificare prima di partire {toggle="true"}
 	**Second block of the page, and it is a toggle.** Max **1,200** visible characters. A dry list, no
 	introductory sentence, every entry carrying its `(sez. N)` pointer and the date it was last checked. A
@@ -113,7 +123,7 @@ Below the table, **one single line**: currency and rate against CHF, time differ
 	<details>
 	<summary>**City History **</summary>
 		Explain here the History of the city, the past, the history, why is known (wars, tech, politics, culture, and so on) , the local context and the highlight to know about the place.
-		**Two levels.** This first level is one line per period, **max 1,300 visible characters**, and it carries no dates, no names and no figures: those go into the nested toggle below.
+		**Two levels.** This first level is one line per period, **max 2,500 visible characters**, and it carries no dates, no names and no figures: those go into the nested toggle below. A few words more than a bare timeline, and not a book: one line per period with the fact that explains why that period still matters today.
 		**Nested inside section 1 and it stays there**, never lifted above the first numbered section: the page opens with links and numbers, not with a history lesson.
 		<details>
 		<summary>**Dettaglio: date, nomi e cifre**</summary>
@@ -213,6 +223,21 @@ Below the table, **one single line**: currency and rate against CHF, time differ
 ## 3. 🛡️ Safety & health (city‑only) {toggle="true"}
 	### **Emergencies (city use):** Police \[XXX\] • Ambulance \[XXX\] • Fire \[XXX\] • Tourism \[XXX\]
 	- **Areas to watch or avoid:** \[concise list with reasons\]
+	- **⚠️ Zone da evitare**, mandatory. **It is always there, and where there is nothing to avoid it says so in one line**: a page that leaves it out gives the reader no way to tell safe from unchecked. On a City page these are districts, stations and named streets, not a region. No euphemism: if it is pickpocketing it says pickpocketing, if it is after dark it says after dark. Columns, in this order: `Zona` · `Cosa succede` · `Quando` · `Cosa fare invece`.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>Zona</td>
+<td>Cosa succede</td>
+<td>Quando</td>
+<td>Cosa fare invece</td>
+</tr>
+<tr>
+<td>**\[District, station or street\]**</td>
+<td>\[what happens there, named plainly\]</td>
+<td>\[time of day, day of the week, or always\]</td>
+<td>\[the route, the district or the behaviour that replaces it\]</td>
+</tr>
+		</table>
 	- **Common scams & counter‑moves:** \[short bullets\]
 	- **Health:** city
 		<table fit-page-width="true" header-row="true">
@@ -314,6 +339,42 @@ Below the table, **one single line**: currency and rate against CHF, time differ
 		- **Business dining:** \[expectations\] • \[who pays\] • \[toast protocol\]
 		- **Local business quirks:** \[e.g., birth chart significance, seasonal greeting cards, etc.\]
 ## 7. ⭐ Attractions & experiences {toggle="true"}
+	**The section is organised by the way it is used, not alphabetically.** An alphabetical list of monuments is of no use to anybody. Five blocks, in this order: `Se hai mezza giornata` and `Se hai un giorno`, then `Da vedere, per zona`, then `💎 Hidden gem` as a table of its own, then `Itinerari a piedi`, then `Fuori città`. Full rule in `knowledge/page-standard.md`, `How the activities are organised`.
+	- **`Se hai mezza giornata`** and **`Se hai un giorno`**, mandatory, **two or three lines each**: what is actually done, in order, with the stops named. No preamble and no alternatives list.
+	- **`Da vedere, per zona`**, the big table, **grouped by district and never in alphabetical order**, so it fits the way the day moves. Mandatory columns: `Luogo` with the link · `Cosa è e perché vale` · `Costo` · `Orari` · `Tempo che serve` · `Hidden gem`. The `Orari` column also says **whether it has to be booked ahead**, which is the information that makes a visit fail. The district name goes on its own row above the places that sit in it.
+	- **`💎 Hidden gem`**, a **separate table**, never rows mixed into the one above. They are what the page is worth and they have to stand on their own, findable without reading the big table row by row.
+	- **`Itinerari a piedi`**, one or two routes, each one a single row: where it starts, the stops, how long it takes.
+	- **`Fuori città`**, mandatory, **at least three destinations** reachable from this city for a full day or with one overnight, not local activities. Columns: `Meta` with the link · `Come si arriva e quanto` · `Cosa ci fai` · `Costo` · `Giornata o pernottamento`.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>Meta</td>
+<td>Come si arriva e quanto</td>
+<td>Cosa ci fai</td>
+<td>Costo</td>
+<td>Giornata o pernottamento</td>
+</tr>
+<tr>
+<td>**\[Destination 1\]**</td>
+<td>\[the mode, the minutes and the fare from this city\]</td>
+<td>\[what is actually done there\]</td>
+<td>\[local currency / CHF\]</td>
+<td>\[day trip or one night\]</td>
+</tr>
+<tr>
+<td>**\[Destination 2\]**</td>
+<td>\[mode, minutes, fare\]</td>
+<td>\[what is done there\]</td>
+<td>\[local currency / CHF\]</td>
+<td>\[day trip or one night\]</td>
+</tr>
+<tr>
+<td>**\[Destination 3\]**</td>
+<td>\[mode, minutes, fare\]</td>
+<td>\[what is done there\]</td>
+<td>\[local currency / CHF\]</td>
+<td>\[day trip or one night\]</td>
+</tr>
+		</table>
 	- **Day trips (≤3h):** \[1–5 bullets or table if needed\]
 	- **Must-see & Unique experiences**
 		<table>
@@ -688,6 +749,11 @@ New requirements, not options. A page missing one of them is incomplete.
 | `Come fare business in città` | section 10: coworking with prices, where meetings are held, the real office hours |
 | `Cosa fare e cosa non fare` | section 6, the `Do` and `Don't` pair, two dry lists |
 | `Cibo strano` | section 8, its own table beside `Cibo da provare`, never merged into it |
+| `⚠️ Zone da evitare` | section 3. **Always present**, and where there is nothing to avoid it says so |
+| `Cambio rapido` | `⚡ Scheda rapida`, under the currency line. 10, 50, 100 and 500 CHF, dropped only where the local currency is the CHF |
+| `Fuori città` | section 7, **at least three** destinations, a day out or one overnight |
+| `Se hai mezza giornata` and `Se hai un giorno` | section 7, first block, two or three lines each |
+| `💎 Hidden gem` | section 7, a table of its own, never mixed into `Da vedere, per zona` |
 
 ## Mandatory table columns
 
@@ -702,6 +768,8 @@ reads to know the shape of a page.
 | Coworking, gyms, services | `Nome` with the link · `Zona` · `Prezzo` · `Note` |
 | Events and conferences | `Evento` with the link · `Quando` · `Dove` · `Costo` |
 | Venues, bars, restaurants, work cafes | `Nome` with the link · `Zona` · `Per cosa` · `Costo` |
+| `⚠️ Zone da evitare` | `Zona` · `Cosa succede` · `Quando` · `Cosa fare invece` |
+| `Fuori città` | `Meta` with the link · `Come si arriva e quanto` · `Cosa ci fai` · `Costo` · `Giornata o pernottamento` |
 
 The link goes on the name of the item, inside its cell. `💎` in the `Hidden gem` column only where it
 truly is one. A missing datum is `da verificare`, and where a place has to be booked ahead it is said in the

@@ -37,7 +37,7 @@ it is moved one level down.** Full rule in `knowledge/page-standard.md`, `Densit
 | What an open section shows, before its `Dettaglio` | **900** |
 | `⚡ Scheda rapida`, first block of the page | **1,200** |
 | `🔁 Da riverificare prima di partire`, second block and a toggle | **1,200** |
-| First level of the history toggle | **1,300** |
+| First level of the history toggle | **2,500**, one line per period with the fact that explains why it matters today |
 | One table cell | **300** |
 | One callout | **4 lines** |
 | One run of prose | **3 consecutive lines**, then a table or a list |
@@ -81,6 +81,19 @@ into a one line `sez. N` pointer, turn descriptive prose into one fact per line.
 - **Compressing is not cutting.** Every fact, figure, address, hour, link and `da verificare` entry
   survives, only the words around them go. A count that fell because content left the page is damage, not
   compression.
+- **No trip data on a City or a Nations page.** Dates, flights, times, the accommodation address and booking
+  references live on the Travel page of that trip. The test: a line that becomes false next month because the
+  trip is over is on the wrong page. It happened on the Warsaw City page, and the fix is a **move**, never a
+  deletion.
+- **Mandatory on both page types:** `⚠️ Zone da evitare`, which is there even when the answer is that there
+  is nothing to avoid, `Cambio rapido` in the `⚡ Scheda rapida` with 10, 50, 100 and 500 CHF, and
+  `Fuori città` with **at least three** destinations. **Mandatory on a Nations page** as well: the
+  international dialling code, `Clima mese per mese`, `Quando andare e quando no`,
+  `Voli diretti dalla Svizzera`, `Rimborso IVA per residenti svizzeri`, `Budget giornaliero`,
+  `Orari di negozi, banche e uffici`. Columns for each in the two specs.
+- **The activities are organised by use, not alphabetically.** Five blocks in order: `Se hai mezza giornata`
+  and `Se hai un giorno`, `Da vedere, per zona` **grouped by district**, `💎 Hidden gem` in a table of its
+  own, `Itinerari a piedi`, `Fuori città`. The `Orari` column also says whether it has to be booked ahead.
 
 ## The repo standard
 

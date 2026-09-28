@@ -86,6 +86,26 @@ generic or stale. A page that loses a good address because it was easier to star
 | `Cosa fare e cosa non fare` | city, section 6 | the `Do` and `Don't` pair, two dry bullet lists |
 | `Cibo strano` | city, section 8 | its own table beside `Cibo da provare`, never merged into it |
 | The one line tail | both | `Aggiornata il <data>. Fonti: <elenco>.` No `🗓️ Ultimo aggiornamento` block, no declaration of density |
+| `⚠️ Zone da evitare` | nation, section 2 · city, section 3 | `Zona` · `Cosa succede` · `Quando` · `Cosa fare invece`. **It can never be missing**, and where there is nothing to avoid the page says so in one line. Regions and border strips on a nation, districts, stations and named streets on a city. No euphemism: pickpocketing is written as pickpocketing, after dark as after dark |
+| `Cambio rapido` | both, inside `⚡ Scheda rapida` | **10, 50, 100 and 500 CHF** in local currency at the rate stated right above it, plus the reverse for one round local amount. Dropped only where the local currency is the CHF |
+| Prefisso internazionale | nation, inside `⚡ Scheda rapida` | the country code and how a local number is dialled: the trunk zero, whether it drops from abroad, mobile against landline |
+| `Fuori città` | nation, section 5 · city, section 7 | **at least three** destinations, `Meta` with the link · `Come si arriva e quanto` · `Cosa ci fai` · `Costo` · `Giornata o pernottamento`. A full day out or one overnight, never a local activity. **It can never be missing** |
+| `Clima mese per mese` | nation, section 4 | `Mese` · `Min / Max media` · `Pioggia o neve` · `Nota`, all twelve months. It replaces seasonal prose |
+| `Quando andare e quando no` | nation, section 4 | three or four lines: the best months, the months to avoid and why, the bridges and the dead periods. Not the holidays table |
+| `Voli diretti dalla Svizzera` | nation, section 5 | `Da` · `A` · `Compagnia` · `Durata` · `Frequenza`, from **Zurigo, Ginevra, Basilea and Milano**. A route that does not exist is written as not existing rather than left out |
+| `Rimborso IVA per residenti svizzeri` | nation, section 4 | minimum spend, the rate, where it is stamped, what has to be shown, the deadline. Switzerland is outside the EU and the entitlement is real, so it is not left off |
+| `Budget giornaliero` | nation, section 4 | one line: the realistic spend per day on a work trip and what it covers |
+| `Orari di negozi, banche e uffici` | nation, section 4 | `Cosa` · `Orario` · `Eccezioni`, compact, with the exceptions that matter |
+| The activities organised by use | city, section 7 | five blocks in order: `Se hai mezza giornata` and `Se hai un giorno`, `Da vedere, per zona` **grouped by district and never alphabetical**, `💎 Hidden gem` as a table of its own, `Itinerari a piedi`, `Fuori città`. The `Orari` column also says whether it has to be booked ahead |
+
+**None of these is an extra pass run afterwards.** They are part of the page the first time it is written,
+and the verification pass below checks them one by one.
+
+**And no trip data on either page type.** Dates, flights, arrival and departure times, the address of the
+accommodation and booking references belong to the Travel page of that trip. The test: a line that becomes
+false next month because the trip is over is on the wrong page. `Palestre con day pass` belongs on a City
+page, `la mia palestra di questo viaggio` does not. Rule in `knowledge/page-standard.md`,
+`City and Nations pages carry no trip data`.
 
 ## The density budget, and it is a hard limit
 
@@ -102,7 +122,7 @@ page rather than a compression pass run afterwards.
 | What an open section shows, before its `Dettaglio` | **900 characters**, so 3 to 6 lines |
 | `⚡ Scheda rapida` | **1,200 characters** |
 | `🔁 Da riverificare prima di partire` toggle | **1,200 characters** |
-| First level of the history toggle | **1,300 characters**, one line per period, the dates and figures in a nested `Dettaglio: date, nomi e cifre` |
+| First level of the history toggle | **2,500 characters**, one line per period with the fact that explains why it matters today, the dates and figures in a nested `Dettaglio: date, nomi e cifre` |
 | One table cell | **300 characters** |
 | One callout | **4 lines** |
 | One run of prose | **3 consecutive lines**, then a table or a list |
@@ -183,12 +203,30 @@ Re-fetch the written page, then work down this list. A page that fails any line 
       **1,200** visible characters
 - [ ] every heavy section carries its own `Dettaglio` toggle
 - [ ] what an open section shows before its `Dettaglio` is within **900** visible characters
-- [ ] the first level of the history toggle is within **1,300** visible characters, dates and figures in the
-      nested `Dettaglio: date, nomi e cifre`
+- [ ] the first level of the history toggle is within **2,500** visible characters, one line per period with
+      the fact that explains why it matters today, dates and figures in the nested
+      `Dettaglio: date, nomi e cifre`
 - [ ] no table cell over **300** characters, no callout over **4 lines**, no run of prose longer than
       **3 consecutive lines**
 - [ ] on a Nations page, `Do`, `Don't` and the two food tables are at the first level of section 7
 - [ ] **no enumeration written as prose** where the mandatory columns of its kind apply
+- [ ] **`⚠️ Zone da evitare` is there.** It cannot be missing. Where there is nothing to avoid the page says
+      so in one line, and the columns are `Zona` · `Cosa succede` · `Quando` · `Cosa fare invece`
+- [ ] **`Fuori città` is there and carries at least three destinations.** It cannot be missing, and each row
+      says how it is reached, what it costs, and whether it is a day out or an overnight
+- [ ] `Cambio rapido` is inside `⚡ Scheda rapida`, with **10, 50, 100 and 500 CHF** at the rate stated, and
+      the reverse for one round local amount. Absent only where the local currency is the CHF
+- [ ] on a nation page, the international dialling code and how a local number is dialled are in the
+      `⚡ Scheda rapida`
+- [ ] on a nation page: `Clima mese per mese` with **all twelve months**, `Quando andare e quando no`,
+      `Voli diretti dalla Svizzera` covering Zurigo, Ginevra, Basilea and Milano,
+      `Rimborso IVA per residenti svizzeri`, `Budget giornaliero` in one line, and
+      `Orari di negozi, banche e uffici`
+- [ ] on a city page, section 7 runs in the five blocks in order, the big table is **grouped by district and
+      not alphabetical**, and the `💎 Hidden gem` entries are in a **table of their own**
+- [ ] the `Orari` column says whether a place has to be booked ahead
+- [ ] **no trip data on the page**: no dates, no flights, no accommodation address, no booking reference.
+      Every line still true once the trip is over
 - [ ] the history toggle is nested inside section 1 on both page types, not floating above it
 - [ ] **the inventory of facts is identical before and after**: distinct numbers, links, proper names and
       `da verificare` entries counted with python, not one fewer

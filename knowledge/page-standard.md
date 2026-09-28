@@ -53,6 +53,23 @@ For every entry: what it is, what to expect, and where to actually get it with a
 
 **Gym and daily routine.** Day-pass gyms with prices near where the reader is staying. He trains every day.
 
+## City and Nations pages carry no trip data
+
+**They are permanent and independent of every trip.** Dates, flights, arrival and departure times, the
+address of the accommodation, booking references, a line like `lavoro da remoto e palestra ogni giorno`:
+**none of it goes on a City or a Nations page.** It lives on the Travel page of that trip and nowhere else.
+
+**The test: if a line becomes false next month because the trip is over, it is in the wrong place.** What
+stays true regardless of who passes through and when, stays.
+
+The corollary: a City page is about the city, not about the posting. `Palestre con day pass` belongs on it,
+`la mia palestra di questo viaggio` does not.
+
+This is the correction of a defect that really happened, not a precaution. An agent wrote the dates, the
+flights and the accommodation of the Warsaw trip into the Warsaw City page, where they were right for one
+week and wrong for good afterwards. The data was not wrong, it was on the wrong page, which is why the fix
+is a move and never a deletion: `travel-db-repair` carries it over to the Travel page.
+
 ## Density budget
 
 The cap on markdown characters was the wrong metric. Table markup is not read, so counting it measured the
@@ -70,7 +87,7 @@ Caps, all counted on the visible text:
 | What an open section shows, before its `Dettaglio` toggle | **900 characters**, so 3 to 6 lines |
 | `⚡ Scheda rapida` | **1,200 characters** |
 | `🔁 Da riverificare prima di partire` toggle | **1,200 characters** |
-| First level of the history toggle | **1,300 characters**, one line per period. Dates, names and figures go into a nested `Dettaglio: date, nomi e cifre` |
+| First level of the history toggle | **2,500 characters**, one line per period, carrying the fact that explains why that period matters today. A few words more than a bare timeline, and not a book. Dates, names and figures go into a nested `Dettaglio: date, nomi e cifre` |
 | One table cell | **300 characters** |
 | One callout | **4 lines** |
 | One run of prose | **3 consecutive lines**, then a table or a list |
@@ -166,6 +183,25 @@ missing datum is `da verificare`, and where a place has to be booked ahead it is
 
 **`Do` and `Don't` stay bullet lists.** One attribute per line is the whole point of them.
 
+## How the activities are organised
+
+An alphabetical list of monuments is of no use to anybody. The activities section is organised **by the way
+it is used**, in this order:
+
+1. **`Se hai mezza giornata` and `Se hai un giorno`.** Two or three lines each, what to do in concrete
+   terms, nothing around it.
+2. **`Da vedere, per zona`.** The big table with the mandatory columns above, **grouped by district and
+   never in alphabetical order**, so it fits the way the day actually moves.
+3. **`💎 Hidden gem`.** A **separate table**, never rows mixed into the one above. They are what the page is
+   worth and they have to stand on their own.
+4. **`Itinerari a piedi`.** One or two routes, each one a single row: where it starts, the stops, how long
+   it takes.
+5. **`Fuori città`.** The mandatory table of at least three destinations reachable for a full day or with
+   one overnight, not local activities.
+
+In the big table the `Orari` column also says **whether the place has to be booked ahead**, because that is
+the information that makes a visit fail.
+
 ## Style
 
 - Italian. Direct, concise, prose where prose reads better than bullets.
@@ -238,12 +274,23 @@ After writing, re-fetch the page and check:
   visible characters
 - every heavy section carries its own `Dettaglio` toggle, and what the section shows before that toggle is
   within **900** visible characters
-- the first level of the history toggle is within **1,300** visible characters, with the dates, names and
-  figures in the nested `Dettaglio: date, nomi e cifre`
+- the first level of the history toggle is within **2,500** visible characters, one line per period with
+  the fact that explains why it matters today, and the dates, names and figures in the nested
+  `Dettaglio: date, nomi e cifre`
 - no table cell over **300** characters, no callout over **4 lines**, no run of prose longer than
   **3 consecutive lines** where a table or a list would carry it
 - on a Nations page, `Do`, `Don't` and the two food tables are at the first level of section 7
 - no enumeration written as prose where the mandatory columns of its kind apply
+- **no trip data anywhere on the page**: no dates, no flights, no accommodation address, no booking
+  reference. Every line still true once the trip is over
+- `⚠️ Zone da evitare` is present, and it says so explicitly where there is nothing to avoid
+- `Cambio rapido` is in the `⚡ Scheda rapida`, with 10, 50, 100 and 500 CHF converted at the stated rate,
+  except where the local currency is the CHF
+- `Fuori città` carries **at least three** destinations, each with how it is reached and whether it is a day
+  or an overnight
+- the activities are grouped **by district**, not alphabetically, and the `💎 Hidden gem` entries are in a
+  table of their own rather than mixed into the main one
+- the `Orari` column says whether a place has to be booked ahead
 - the history toggle is nested inside section 1, not floating above it
 - no `🗓️ Ultimo aggiornamento` block left, and no declaration of density anywhere
 - `Do`, `Don't` and `Cosa non dire` are lists, not paragraphs

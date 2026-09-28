@@ -18,11 +18,16 @@ where they are read.
 Section names, their emoji and their numbering are kept exactly as they read in
 Notion.
 
+**No trip data on this page.** It is permanent. Dates, flights, times, the address of the accommodation and
+booking references live on the Travel page of that trip, never here. The test: a line that becomes false
+next month because the trip is over is in the wrong place. Rule in `knowledge/page-standard.md`,
+`City and Nations pages carry no trip data`.
+
 **Density.** What is measured is the **visible text**, not the characters of the markdown: table markup is
 not read, so it does not count. Every heavy section carries **two levels**, the operational essentials
 visible when the section opens and one toggle `Dettaglio: <what it holds>` with all the rest. Nothing is
 deleted, it is moved one level down. Caps on the visible text: **900** for what an open section shows,
-**1,200** for `⚡ Scheda rapida`, **1,200** for the `🔁 Da riverificare` toggle, **1,300** for the
+**1,200** for `⚡ Scheda rapida`, **1,200** for the `🔁 Da riverificare` toggle, **2,500** for the
 first level of `Storia del paese`, **300** for a table cell, **4 lines** for a callout, **3 consecutive
 lines** of prose. The `Dettaglio` toggles have no cap. **Declared exception: `Do`, `Don't` and the two food
 tables stay at the first level of section 7.** The budget, the three cutting levers and the form rules are
@@ -64,6 +69,14 @@ characters. Two columns, and the rows come in this order:
 <td>currency, rate against CHF, the date of the rate</td>
 </tr>
 <tr>
+<td>**Cambio rapido**</td>
+<td>**10, 50, 100 and 500 CHF** in local currency at the rate on the row above, plus the reverse for one round local amount. It is there to price something at a glance in front of a shelf. Where the local currency is the CHF the row is dropped</td>
+</tr>
+<tr>
+<td>**Prefisso internazionale**</td>
+<td>the country code, and how a local number is dialled: the trunk zero, whether it is dropped from abroad, mobile against landline</td>
+</tr>
+<tr>
 <td>**Presa elettrica**</td>
 <td>socket type, voltage, whether an adapter is needed from Switzerland</td>
 </tr>
@@ -102,7 +115,7 @@ left, time format.
 ## 1. 🛂 Entry, Visas, and Rules {toggle="true"}
 	<details>
 	<summary>**Storia del paese**</summary>
-		**Two levels.** This first level is one line per period, **max 1,300 visible characters**, and it carries no dates, no names of rulers and no figures: those go into the nested toggle below. **Nested inside section 1 as its first block**, not placed before it: the first thing the page shows must be operational.
+		**Two levels.** This first level is one line per period, **max 2,500 visible characters**, and it carries no dates, no names of rulers and no figures: those go into the nested toggle below. A few words more than a bare timeline, and not a book: one line per period with the fact that explains why that period still matters today. **Nested inside section 1 as its first block**, not placed before it: the first thing the page shows must be operational.
 		- **Archi storici principali:** the eras that formed the country, one line each, from origin to today.
 		- **Cosa spiega il paese di oggi:** which of those arcs still decides how the place works now, its borders, its institutions, its wealth, its neighbours and its open wounds.
 		- **Perché il lettore ne ha bisogno:** what he would misread on the ground without it, in conversation, in a negotiation and standing in front of a monument.
@@ -223,6 +236,21 @@ left, time format.
 <td>Emergenza consolare IT</td>
 <td></td>
 <td>Italian Unità di Crisi, 24/7, not the consulate switchboard</td>
+</tr>
+		</table>
+	- **⚠️ Zone da evitare**, mandatory. **It is always there, and where there is nothing to avoid it says so in one line**: a page that leaves it out gives the reader no way to tell safe from unchecked. On a Nations page these are regions and border strips. No euphemism: if it is pickpocketing it says pickpocketing, if it is after dark it says after dark. Columns, in this order: `Zona` · `Cosa succede` · `Quando` · `Cosa fare invece`.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>Zona</td>
+<td>Cosa succede</td>
+<td>Quando</td>
+<td>Cosa fare invece</td>
+</tr>
+<tr>
+<td>**\[Region or border strip\]**</td>
+<td>\[what happens there, named plainly\]</td>
+<td>\[time of day, season, or always\]</td>
+<td>\[the route, the region or the behaviour that replaces it\]</td>
 </tr>
 		</table>
 	- Geopolitical Risk and situation (eg War, riots)
@@ -377,6 +405,58 @@ left, time format.
 </tr>
 		</table>
 		- **Cambio usato per la conversione:** state the rate and the date it was read. A conversion without a rate beside it is not verifiable.
+	- **Budget giornaliero**, mandatory, **one single line**: the realistic spend per day on a work trip, and what that figure covers. Hotel, meals, urban transport and a coffee, stated as a range where the range is real.
+	- **`Clima mese per mese`**, mandatory. A table, **all twelve months**, one row each. It replaces seasonal prose, which the reader has to deduce a month out of. Columns: `Mese` · `Min / Max media` · `Pioggia o neve` · `Nota`.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>Mese</td>
+<td>Min / Max media</td>
+<td>Pioggia o neve</td>
+<td>Nota</td>
+</tr>
+<tr>
+<td>**Gennaio**</td>
+<td>\[-2 / 3 °C\]</td>
+<td>\[days of rain or snow, and which of the two\]</td>
+<td>\[the one thing that changes the day: daylight hours, wind, humidity\]</td>
+</tr>
+<tr>
+<td>**Febbraio**</td>
+<td>\[min / max\]</td>
+<td>\[rain or snow\]</td>
+<td>\[the deciding detail\]</td>
+</tr>
+		</table>
+	- **`Quando andare e quando no`**, mandatory, **three or four lines**: the best months, the months to avoid and why, and the bridges and dead periods when nothing gets decided. It is not the holidays table in section 7, which says what closes on a given date.
+	- **`Orari di negozi, banche e uffici`**, mandatory. A compact table with the exceptions that matter, the Saturday, the Sunday, the long lunch break and the one weekday something is shut. Columns: `Cosa` · `Orario` · `Eccezioni`.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>Cosa</td>
+<td>Orario</td>
+<td>Eccezioni</td>
+</tr>
+<tr>
+<td>**Negozi**</td>
+<td>\[weekday hours\]</td>
+<td>\[Saturday, Sunday, the long lunch break\]</td>
+</tr>
+<tr>
+<td>**Banche**</td>
+<td>\[weekday hours\]</td>
+<td>\[the afternoon window, the day they shut\]</td>
+</tr>
+<tr>
+<td>**Uffici pubblici**</td>
+<td>\[weekday hours\]</td>
+<td>\[counter hours against office hours, booking required\]</td>
+</tr>
+<tr>
+<td>**Supermercati**</td>
+<td>\[weekday hours\]</td>
+<td>\[Sunday, public holidays\]</td>
+</tr>
+		</table>
+	- **`Rimborso IVA per residenti svizzeri`**, mandatory. **Switzerland is outside the EU and the entitlement is real, so it is not left off the page.** Minimum spend per receipt, the VAT rate and what actually comes back, where the form is stamped, what has to be shown at the counter, and the deadline to claim it. Where the country refunds nothing to a Swiss resident, the page says that instead.
 ## 5. ✈️ National Transportation {toggle="true"}
 	- How to book
 		<table fit-page-width="true" header-row="true">
@@ -407,6 +487,75 @@ left, time format.
 		</table>
 	- Roads and driving
 		- IDP, helmet, rain, night driving, insurance
+	- **`Voli diretti dalla Svizzera`**, mandatory. Columns: `Da` · `A` · `Compagnia` · `Durata` · `Frequenza`. `Da` covers **Zurigo, Ginevra, Basilea and Milano**, and a route that does not exist is written as not existing rather than left out, because an empty row and a missing row read the same and mean the opposite.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>Da</td>
+<td>A</td>
+<td>Compagnia</td>
+<td>Durata</td>
+<td>Frequenza</td>
+</tr>
+<tr>
+<td>**Zurigo**</td>
+<td>\[airport\]</td>
+<td>\[carrier\]</td>
+<td>\[h:mm\]</td>
+<td>\[flights per day or per week, and the seasonal window\]</td>
+</tr>
+<tr>
+<td>**Ginevra**</td>
+<td>\[airport\]</td>
+<td>\[carrier\]</td>
+<td>\[h:mm\]</td>
+<td>\[frequency\]</td>
+</tr>
+<tr>
+<td>**Basilea**</td>
+<td>\[airport\]</td>
+<td>\[carrier\]</td>
+<td>\[h:mm\]</td>
+<td>\[frequency\]</td>
+</tr>
+<tr>
+<td>**Milano**</td>
+<td>\[airport\]</td>
+<td>\[carrier\]</td>
+<td>\[h:mm\]</td>
+<td>\[frequency\]</td>
+</tr>
+		</table>
+	- **`Fuori città`**, mandatory, **at least three destinations**. On a Nations page they are the places worth using the main cities as a base for, a full day out or one overnight, and never a local activity inside a city. Columns: `Meta` with the link · `Come si arriva e quanto` · `Cosa ci fai` · `Costo` · `Giornata o pernottamento`.
+		<table fit-page-width="true" header-row="true">
+<tr>
+<td>Meta</td>
+<td>Come si arriva e quanto</td>
+<td>Cosa ci fai</td>
+<td>Costo</td>
+<td>Giornata o pernottamento</td>
+</tr>
+<tr>
+<td>**\[Destination 1\]**</td>
+<td>\[from which city, the mode, the minutes and the fare\]</td>
+<td>\[what is actually done there\]</td>
+<td>\[local currency / CHF\]</td>
+<td>\[day trip or one night\]</td>
+</tr>
+<tr>
+<td>**\[Destination 2\]**</td>
+<td>\[mode, minutes, fare\]</td>
+<td>\[what is done there\]</td>
+<td>\[local currency / CHF\]</td>
+<td>\[day trip or one night\]</td>
+</tr>
+<tr>
+<td>**\[Destination 3\]**</td>
+<td>\[mode, minutes, fare\]</td>
+<td>\[what is done there\]</td>
+<td>\[local currency / CHF\]</td>
+<td>\[day trip or one night\]</td>
+</tr>
+		</table>
 	- Additional
 		- Domestic airlines and routes:
 		- Rail systems and apps:
@@ -526,6 +675,25 @@ noise. The spec version goes on that same line whenever it is not the current on
 1.4`. `🔁 Da riverificare prima di partire` is not down here: it is the **second block of the page**,
 at the top, and it is a toggle.
 
+## Mandatory entries
+
+New requirements, not options. A page missing one of them is incomplete. All of them in lean form: a table,
+one row one fact, no prose around it.
+
+| Entry | Where it sits |
+| --- | --- |
+| `Cibo da provare` and `Cibo strano` | section 7, two separate tables, both at the first level |
+| `⚠️ Zone da evitare` | section 2. **Always present**, and where there is nothing to avoid it says so |
+| `Cambio rapido` | `⚡ Scheda rapida`, right under the currency row. 10, 50, 100 and 500 CHF, dropped only where the local currency is the CHF |
+| Prefisso internazionale | `⚡ Scheda rapida`, with how a local number is dialled |
+| `Clima mese per mese` | section 4, all twelve months |
+| `Quando andare e quando no` | section 4, three or four lines. Not the holidays table |
+| `Orari di negozi, banche e uffici` | section 4, compact, with the exceptions that matter |
+| `Rimborso IVA per residenti svizzeri` | section 4. Switzerland is outside the EU and the entitlement is real |
+| `Budget giornaliero` | section 4, one line, and what the figure covers |
+| `Voli diretti dalla Svizzera` | section 5, from Zurigo, Ginevra, Basilea and Milano |
+| `Fuori città` | section 5, **at least three** destinations, a day out or one overnight |
+
 ## Mandatory table columns
 
 Set in `knowledge/page-standard.md`, `No lists in prose`, and repeated here because this is the file a skill
@@ -539,6 +707,11 @@ reads to know the shape of a page.
 | Coworking, gyms, services | `Nome` with the link · `Zona` · `Prezzo` · `Note` |
 | Events and conferences | `Evento` with the link · `Quando` · `Dove` · `Costo` |
 | Venues, bars, restaurants, work cafes | `Nome` with the link · `Zona` · `Per cosa` · `Costo` |
+| `⚠️ Zone da evitare` | `Zona` · `Cosa succede` · `Quando` · `Cosa fare invece` |
+| `Fuori città` | `Meta` with the link · `Come si arriva e quanto` · `Cosa ci fai` · `Costo` · `Giornata o pernottamento` |
+| `Clima mese per mese` | `Mese` · `Min / Max media` · `Pioggia o neve` · `Nota` |
+| `Voli diretti dalla Svizzera` | `Da` · `A` · `Compagnia` · `Durata` · `Frequenza` |
+| `Orari di negozi, banche e uffici` | `Cosa` · `Orario` · `Eccezioni` |
 
 The link goes on the name of the item, inside its cell. `💎` in the `Hidden gem` column only where it
 truly is one. A missing datum is `da verificare`.

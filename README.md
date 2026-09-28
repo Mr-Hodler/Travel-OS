@@ -1,6 +1,6 @@
 # Travel OS
 
-![version](https://img.shields.io/badge/version-1.5-blue)
+![version](https://img.shields.io/badge/version-1.6-blue)
 
 Six skills that manage the Notion **Travels & City** database. The database already exists and is correct. Travel OS does not redesign it, it keeps it filled, current and usable.
 
@@ -41,6 +41,31 @@ Beside them, `knowledge/templates/` holds the canonical specification of each of
 ```
 
 Needs the Notion connector. `trip-itinerary` and `pre-departure-check` also need Spark or Gmail, and Google Calendar. `travel-scheduler` needs the trigger tools of the `claude-code-remote` MCP server, and nothing else. `SETUP.md` has the whole matrix, the Drive folder convention, what to do on first use and how to verify that every connector actually responds.
+
+## What's new in 1.6
+
+**A City or a Nations page carries no trip data.** Dates, flights, arrival and departure times, the address
+of the accommodation and booking references live on the Travel page of that trip and nowhere else. The test
+is mechanical: **a line that becomes false next month because the trip is over is on the wrong page.** This
+is the correction of a defect that really happened, the dates and flights of the Warsaw trip written into
+the Warsaw City page, and the fix is a **move** to the Travel page, never a deletion.
+
+**Ten mandatory entries were added.** On both page types: `⚠️ Zone da evitare`, which is there even when
+the answer is that there is nothing to avoid, `Cambio rapido` inside the `⚡ Scheda rapida` with **10, 50,
+100 and 500 CHF** at the stated rate, and `Fuori città` with **at least three** destinations for a day out
+or an overnight. On a Nations page as well: the international dialling code, `Clima mese per mese` for all
+twelve months, `Quando andare e quando no`, `Voli diretti dalla Svizzera` from Zurigo, Ginevra, Basilea and
+Milano, `Rimborso IVA per residenti svizzeri`, `Budget giornaliero` in one line, and `Orari di negozi,
+banche e uffici`.
+
+**The activities are organised by the way they are used, not alphabetically.** Five blocks in order:
+`Se hai mezza giornata` and `Se hai un giorno`, `Da vedere, per zona` **grouped by district**,
+`💎 Hidden gem` in a **table of its own**, `Itinerari a piedi`, `Fuori città`. The `Orari` column also says
+whether a place has to be booked ahead, which is the information that makes a visit fail.
+
+**The first level of the history toggle goes from 1,300 to 2,500 visible characters**: a few words more than
+a bare timeline, one line per period with the fact that explains why that period still matters today, and
+not a book. Everything else stays as 1.5 set it.
 
 ## What's new in 1.5
 

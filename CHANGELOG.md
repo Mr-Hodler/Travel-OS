@@ -1,5 +1,67 @@
 # Changelog
 
+## 1.6
+
+**Where this release comes from.** The reader went through the Warsaw page and said two things. The first
+had already been acted on in 1.5: the lists written in prose had to become tables, because three venues and
+their prices threaded into one sentence cannot be read standing on a street. The second was new, and it was
+not about form: **the page was carrying his trip.** The dates, the flights, the address of the flat and a
+line about working remotely and going to the gym every day were sitting in the Warsaw City page, where every
+one of them was correct for one week and wrong for good afterwards.
+
+**So the separation between permanent and trip data is now a rule with a test.** A City or a Nations page is
+permanent. Dates, flights, arrival and departure times, the address of the accommodation and booking
+references live on the Travel page of that trip and nowhere else. **The test is mechanical: a line that
+becomes false next month because the trip is over is on the wrong page.** The corollary decides the
+borderline cases: `Palestre con day pass` belongs on a City page, `la mia palestra di questo viaggio` does
+not.
+
+**The datum is not wrong, it is in the wrong place, so the repair is a move.** `travel-db-audit` gains the
+finding `dati di viaggio in una pagina City o Nations` and `travel-db-repair` gains the procedure as its
+eighth class, written in the order that matters: find the Travel page first, write the lines there, re-fetch
+and confirm they arrived, and only then take them off the City page. No Travel page means no move: the lines
+stay put under a `Da spostare sulla pagina Travel` toggle and the finding is reported open, because a move
+done in the wrong order is a deletion with extra steps. What stays behind is the permanent version of the
+same fact: the hotel address goes, the line on which district to sleep in stays.
+
+**Ten mandatory entries were added.** All of them in lean form, a table, one row one fact, no prose around
+it.
+
+| Entry | Where | What makes it pass |
+| --- | --- | --- |
+| `⚠️ Zone da evitare` | nation sez. 2, city sez. 3 | `Zona` · `Cosa succede` · `Quando` · `Cosa fare invece`. **It can never be missing**, and where there is nothing to avoid the page says so: without it the reader cannot tell safe from unchecked. Regions and border strips on a nation, districts, stations and named streets on a city. No euphemism |
+| `Cambio rapido` | both, in `⚡ Scheda rapida` | **10, 50, 100 and 500 CHF** in local currency at the rate stated above it, plus the reverse for one round local amount. Dropped only where the local currency is the CHF |
+| Prefisso internazionale | nation, in `⚡ Scheda rapida` | the country code and how a local number is dialled |
+| `Fuori città` | nation sez. 5, city sez. 7 | **at least three** destinations, `Meta` · `Come si arriva e quanto` · `Cosa ci fai` · `Costo` · `Giornata o pernottamento`. A day out or one overnight, never a local activity. **It can never be missing** |
+| `Clima mese per mese` | nation sez. 4 | `Mese` · `Min / Max media` · `Pioggia o neve` · `Nota`, all twelve months. It replaces seasonal prose, out of which a month had to be deduced |
+| `Quando andare e quando no` | nation sez. 4 | three or four lines: best months, months to avoid and why, bridges and dead periods. Not the holidays table |
+| `Voli diretti dalla Svizzera` | nation sez. 5 | `Da` · `A` · `Compagnia` · `Durata` · `Frequenza`, from Zurigo, Ginevra, Basilea and Milano |
+| `Rimborso IVA per residenti svizzeri` | nation sez. 4 | minimum spend, the rate, where it is stamped, what to show, the deadline. Switzerland is outside the EU and the entitlement is real, so it is not left off |
+| `Budget giornaliero` | nation sez. 4 | one line: the realistic spend per day on a work trip, and what it covers |
+| `Orari di negozi, banche e uffici` | nation sez. 4 | `Cosa` · `Orario` · `Eccezioni`, with the exceptions that matter |
+
+**And the activities are organised by the way they are used, not alphabetically.** An alphabetical list of
+monuments answers no question anybody actually has. Five blocks, in this order: `Se hai mezza giornata` and
+`Se hai un giorno`, two or three lines each; `Da vedere, per zona`, the big table **grouped by district and
+never alphabetical**, so it fits the way the day moves; `💎 Hidden gem` in a **table of its own**, because
+they are what the page is worth and mixed into the big table they cannot be found; `Itinerari a piedi`, one
+or two routes, one row each; `Fuori città`. In the big table the `Orari` column also says **whether the
+place has to be booked ahead**, which is the one piece of information that makes a visit fail.
+
+**The first level of the history toggle goes from 1,300 to 2,500 visible characters.** 1,300 bought a bare
+timeline, and a timeline explains nothing. 2,500 buys one line per period carrying the fact that makes that
+period matter today, and it is still not a book: the dates, the names and the figures stay in the nested
+`Dettaglio: date, nomi e cifre`. Every other cap of 1.5 is unchanged.
+
+**`travel-db-audit` gains six findings:** `Zone da evitare mancante`, `Cambio rapido mancante`,
+`Fuori città con meno di tre mete`, `dati di viaggio in una pagina City o Nations`, `hidden gem mescolati
+nella tabella principale`, and `attività in ordine alfabetico invece che per zona`.
+
+**Files touched.** `knowledge/page-standard.md`, `knowledge/templates/nations-spec.md`,
+`knowledge/templates/city-spec.md`, `skills/nation-city-pages/SKILL.md`,
+`skills/travel-db-audit/SKILL.md`, `skills/travel-db-repair/SKILL.md`, `CLAUDE.md`, `README.md`. The three
+`*-template.md` snapshots are untouched, as always. Nothing was removed: every rule of 1.5 still stands.
+
 ## 1.5
 
 **The character cap was measuring the wrong thing.**
